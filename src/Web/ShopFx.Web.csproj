@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\BasketService.cs" />
+    <Compile Remove="Services\CampaignService.cs" />
+    <Compile Remove="Services\IBasketService.cs" />
+    <Compile Remove="Services\ICampaignService.cs" />
+    <Compile Remove="Services\IdentityParser.cs" />
+    <Compile Remove="Services\IIdentityParser.cs" />
+    <Compile Remove="Services\ILocationService.cs" />
+    <Compile Remove="Services\IOrderingService.cs" />
+    <Compile Remove="Services\LocationService.cs" />
+    <Compile Remove="Services\OrderingService.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>

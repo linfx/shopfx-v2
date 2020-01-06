@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EntityConfigurations\BuyerEntityTYpeConfiguration.cs" />
+    <Compile Remove="EntityConfigurations\CardTypeEntityTypeConfiguration.cs" />
+    <Compile Remove="EntityConfigurations\ClientRequestEntityTypeConfiguration.cs" />
+    <Compile Remove="EntityConfigurations\OrderEntityTypeConfiguration.cs" />
+    <Compile Remove="EntityConfigurations\OrderItemEntityTypeConfiguration.cs" />
+    <Compile Remove="EntityConfigurations\OrderStatusEntityTypeConfiguration.cs" />
+    <Compile Remove="EntityConfigurations\PaymentMethodEntityTypeConfiguration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EntityConfigurations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
+  </ItemGroup>
+
+</Project>

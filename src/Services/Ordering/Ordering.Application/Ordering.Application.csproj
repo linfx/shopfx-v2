@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Events\**" />
+    <Compile Remove="Handlers\BuyerAndPaymentMethodVerified\**" />
+    <Compile Remove="Handlers\OrderCancelled\**" />
+    <Compile Remove="Handlers\OrderGracePeriodConfirmed\**" />
+    <Compile Remove="Handlers\OrderPaid\**" />
+    <Compile Remove="Handlers\OrderShipped\**" />
+    <Compile Remove="Handlers\OrderStockConfirmed\**" />
+    <EmbeddedResource Remove="Events\**" />
+    <EmbeddedResource Remove="Handlers\BuyerAndPaymentMethodVerified\**" />
+    <EmbeddedResource Remove="Handlers\OrderCancelled\**" />
+    <EmbeddedResource Remove="Handlers\OrderGracePeriodConfirmed\**" />
+    <EmbeddedResource Remove="Handlers\OrderPaid\**" />
+    <EmbeddedResource Remove="Handlers\OrderShipped\**" />
+    <EmbeddedResource Remove="Handlers\OrderStockConfirmed\**" />
+    <None Remove="Events\**" />
+    <None Remove="Handlers\BuyerAndPaymentMethodVerified\**" />
+    <None Remove="Handlers\OrderCancelled\**" />
+    <None Remove="Handlers\OrderGracePeriodConfirmed\**" />
+    <None Remove="Handlers\OrderPaid\**" />
+    <None Remove="Handlers\OrderShipped\**" />
+    <None Remove="Handlers\OrderStockConfirmed\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Commands\CreateOrderCommand.cs" />
+    <Compile Remove="Commands\CreateOrderCommandHandler.cs" />
+    <Compile Remove="Commands\OrderStatusCommand.cs" />
+    <Compile Remove="Commands\OrderStatusCommandHandler.cs" />
+    <Compile Remove="Handlers\OrderStartedEvent\SendEmailToCustomerWhenOrderStartedDomainEventHandler.cs" />
+    <Compile Remove="Validations\CreateOrderCommandValidator.cs" />
+    <Compile Remove="Validations\IdentifiedCommandValidator.cs" />
+    <Compile Remove="Validations\ShipOrderCommandValidator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Events\UserCheckoutAcceptedConsumer.cs" />
+    <Compile Include="Events\UserCheckoutAccepted.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
+    <ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handlers\" />
+  </ItemGroup>
+
+</Project>
