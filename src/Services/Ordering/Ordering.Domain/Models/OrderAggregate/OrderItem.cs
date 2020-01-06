@@ -1,5 +1,4 @@
 ﻿using LinFx.Domain.Models;
-using Ordering.Domain.Exceptions;
 
 namespace Ordering.Domain.Models.OrderAggregate
 {
