@@ -26,9 +26,7 @@ namespace Basket
                 .AddCustomMVC(Configuration)
                 .AddCustomDbContext(Configuration)
                 .AddCustomOptions(Configuration)
-                .AddCustomAuthentication(Configuration)
-                .AddIntegrationServices(Configuration)
-                .AddCustomSwagger();
+                .AddCustomAuthentication(Configuration);
 
             services.AddLinFx()
                 .AddHttpContextPrincipalAccessor()
@@ -159,28 +157,6 @@ namespace Basket
                 options.Audience = "basket";
             });
 
-            return services;
-        }
-
-        public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddTransient<IBasketRepository, RedisBasketRepository>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
-        {
-            services.AddSwaggerGen(options =>
-            {
-                options.DescribeAllEnumsAsStrings();
-                options.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
-                {
-                    Title = "ShopFx - Basket HTTP API",
-                    Version = "v1",
-                    Description = "The Basket Microservice HTTP API.",
-                });
-            });
             return services;
         }
     }

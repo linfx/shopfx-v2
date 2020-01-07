@@ -1,16 +1,10 @@
-﻿using LinFx.Extensions.EventBus;
-using LinFx.Security.Principal;
+﻿using Basket.Api.Services;
+using Basket.Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Basket.Api.Services;
-using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Linq;
-using Basket.API.Application.IntegrationEvents.Events;
-using Microsoft.AspNetCore.Authorization;
-using LinFx;
-using Basket.Application.Models;
 
 namespace Basket.Api.Controllers
 {
@@ -19,17 +13,17 @@ namespace Basket.Api.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
-        private readonly IHttpContextPrincipalAccessor _identitySvc;
-        private readonly IEventBus _eventBus;
+        //private readonly IHttpContextPrincipalAccessor _identitySvc;
+        //private readonly IEventBus _eventBus;
 
-        public BasketController(IBasketRepository repository,
-            IHttpContextPrincipalAccessor identityService,
-            IEventBus eventBus)
-        {
-            _repository = repository;
-            _identitySvc = identityService;
-            _eventBus = eventBus;
-        }
+        //public BasketController(IBasketRepository repository,
+        //    IHttpContextPrincipalAccessor identityService,
+        //    IEventBus eventBus)
+        //{
+        //    _repository = repository;
+        //    _identitySvc = identityService;
+        //    _eventBus = eventBus;
+        //}
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
@@ -97,17 +91,17 @@ namespace Basket.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Checkout(BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            var userId = _identitySvc.Principal.FindUserId();
+            //var userId = _identitySvc.Principal.FindUserId();
 
-            basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-                guid : basketCheckout.RequestId;
+            //basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
+            //    guid : basketCheckout.RequestId;
 
-            var basket = await _repository.GetBasketAsync(userId);
+            //var basket = await _repository.GetBasketAsync(userId);
 
-            if (basket == null)
-                return BadRequest();
+            //if (basket == null)
+            //    return BadRequest();
 
-            var userName = User.Identity.Name;
+            //var userName = User.Identity.Name;
 
             //var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
             //    basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
