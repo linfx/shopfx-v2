@@ -1,6 +1,5 @@
 ﻿using Basket.Api.Services;
 using Basket.Application.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net;
@@ -8,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace Basket.Api.Controllers
 {
+    /// <summary>
+    /// 购物车Api
+    /// </summary>
     [ApiController]
-    [Route("api/v1/basket")]
+    [Route("api/basket")]
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
@@ -76,43 +78,6 @@ namespace Basket.Api.Controllers
         public void Delete(string id)
         {
             _repository.DeleteBasketAsync(id);
-        }
-
-        /// <summary>
-        /// 订单结算
-        /// </summary>
-        /// <param name="basketCheckout"></param>
-        /// <param name="requestId"></param>
-        /// <returns></returns>
-        [Authorize]
-        [Route("checkout")]
-        [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.Accepted)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Checkout(BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
-        {
-            //var userId = _identitySvc.Principal.FindUserId();
-
-            //basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-            //    guid : basketCheckout.RequestId;
-
-            //var basket = await _repository.GetBasketAsync(userId);
-
-            //if (basket == null)
-            //    return BadRequest();
-
-            //var userName = User.Identity.Name;
-
-            //var eventMessage = new UserCheckoutAcceptedIntegrationEvent(userId, userName, basketCheckout.City, basketCheckout.Street,
-            //    basketCheckout.State, basketCheckout.Country, basketCheckout.ZipCode, basketCheckout.CardNumber, basketCheckout.CardHolderName,
-            //    basketCheckout.CardExpiration, basketCheckout.CardSecurityNumber, basketCheckout.CardTypeId, basketCheckout.Buyer, basketCheckout.RequestId, basket);
-
-            //// Once basket is checkout, sends an integration event to
-            //// ordering.api to convert basket to order and proceeds with
-            //// order creation process
-            //await _eventBus.PublishAsync(eventMessage);
-
-            return Accepted();
         }
     }
 }
