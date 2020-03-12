@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Ordering.Domain.Commands
 {
     /// <summary>
-    /// 订单预览
+    /// 创建订单预览命令
     /// </summary>
     public class CreateOrderDraftCommand : IRequest<OrderDraftResult>
     {

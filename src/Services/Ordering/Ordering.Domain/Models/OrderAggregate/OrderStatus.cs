@@ -42,10 +42,7 @@ namespace Ordering.Domain.Models.OrderAggregate
 
         protected OrderStatus() { }
 
-        public OrderStatus(int id, string name)
-            : base(id, name)
-        {
-        }
+        public OrderStatus(int id, string name) : base(id, name) { }
 
         public static IEnumerable<OrderStatus> List() => new[] { Submitted, AwaitingValidation, StockConfirmed, Paid, Shipped, Cancelled };
 

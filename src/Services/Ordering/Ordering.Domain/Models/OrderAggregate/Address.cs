@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Ordering.Domain.Models.OrderAggregate
 {
+    /// <summary>
+    /// 订单地址
+    /// </summary>
     public class Address : ValueObject
     {
         public string Street { get; private set; }

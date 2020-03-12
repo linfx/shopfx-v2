@@ -36,6 +36,9 @@ namespace Ordering.Application.Events
 
         public Guid RequestId { get; set; }
 
+        /// <summary>
+        /// 购物车
+        /// </summary>
         public CustomerBasket Basket { get; }
     }
 }

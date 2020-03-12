@@ -11,6 +11,9 @@ namespace Ordering.Domain.Models.BuyerAggregate
     /// </summary>
     public class Buyer : AggregateRoot<long>
     {
+        /// <summary>
+        /// 支付方式
+        /// </summary>
         private readonly List<PaymentMethod> _paymentMethods;
 
         protected Buyer()
@@ -18,6 +21,11 @@ namespace Ordering.Domain.Models.BuyerAggregate
             _paymentMethods = new List<PaymentMethod>();
         }
 
+        /// <summary>
+        /// 客户
+        /// </summary>
+        /// <param name="id">编号</param>
+        /// <param name="name">名称</param>
         public Buyer(long id, string name) : this()
         {
             Id = id;

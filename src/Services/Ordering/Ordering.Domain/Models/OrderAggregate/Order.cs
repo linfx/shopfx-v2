@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace Ordering.Domain.Models.OrderAggregate
 {
+    /// <summary>
+    /// 订单
+    /// </summary>
     public class Order : AggregateRoot<long>
     {
         // DDD Patterns comment
@@ -62,6 +65,10 @@ namespace Ordering.Domain.Models.OrderAggregate
             AddOrderStartedDomainEvent(userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
         }
 
+        /// <summary>
+        /// 订单预览
+        /// </summary>
+        /// <returns></returns>
         public static Order NewDraft()
         {
             var order = new Order
@@ -205,7 +212,7 @@ namespace Ordering.Domain.Models.OrderAggregate
         }
 
         /// <summary>
-        /// 增加新建订单事件
+        /// 新建订单事件
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="userName"></param>

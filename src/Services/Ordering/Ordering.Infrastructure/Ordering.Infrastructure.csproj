@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EntityConfigurations\" />
+    <ProjectReference Include="..\..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
+    <Folder Include="EntityConfigurations\" />
   </ItemGroup>
 
 </Project>

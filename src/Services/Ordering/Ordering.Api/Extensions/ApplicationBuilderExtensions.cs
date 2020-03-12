@@ -9,6 +9,12 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ApplicationBuilderExtensions
     {
+        /// <summary>
+        /// 静态文件
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseCustomizedStaticFiles(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
