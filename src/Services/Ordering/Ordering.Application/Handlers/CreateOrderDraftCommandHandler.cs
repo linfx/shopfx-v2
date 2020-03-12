@@ -1,26 +1,20 @@
 ﻿using MediatR;
 using Ordering.Application.ViewModels;
+using Ordering.Domain.Commands;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ordering.Domain.Commands
+namespace Ordering.Application.Handlers
 {
     /// <summary>
     /// 订单预览
     /// </summary>
     public class CreateOrderDraftCommandHandler : IRequestHandler<CreateOrderDraftCommand, OrderDraftResult>
     {
-        private readonly IMediator _mediator;
-
-        public CreateOrderDraftCommandHandler(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         Task<OrderDraftResult> IRequestHandler<CreateOrderDraftCommand, OrderDraftResult>.Handle(CreateOrderDraftCommand request, CancellationToken cancellationToken)
         {
-            var order = Models.OrderAggregate.Order.NewDraft();
+            var order = Domain.Models.OrderAggregate.Order.NewDraft();
             //var orderItems = request.Items.Select(i => i.MapTo<);
 
             //foreach (var item in orderItems)

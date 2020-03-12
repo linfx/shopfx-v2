@@ -8,33 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="Events\**" />
-    <Compile Remove="Handlers\BuyerAndPaymentMethodVerified\**" />
-    <Compile Remove="Handlers\OrderCancelled\**" />
-    <Compile Remove="Handlers\OrderGracePeriodConfirmed\**" />
-    <Compile Remove="Handlers\OrderPaid\**" />
-    <Compile Remove="Handlers\OrderShipped\**" />
-    <Compile Remove="Handlers\OrderStockConfirmed\**" />
     <EmbeddedResource Remove="Events\**" />
-    <EmbeddedResource Remove="Handlers\BuyerAndPaymentMethodVerified\**" />
-    <EmbeddedResource Remove="Handlers\OrderCancelled\**" />
-    <EmbeddedResource Remove="Handlers\OrderGracePeriodConfirmed\**" />
-    <EmbeddedResource Remove="Handlers\OrderPaid\**" />
-    <EmbeddedResource Remove="Handlers\OrderShipped\**" />
-    <EmbeddedResource Remove="Handlers\OrderStockConfirmed\**" />
     <None Remove="Events\**" />
-    <None Remove="Handlers\BuyerAndPaymentMethodVerified\**" />
-    <None Remove="Handlers\OrderCancelled\**" />
-    <None Remove="Handlers\OrderGracePeriodConfirmed\**" />
-    <None Remove="Handlers\OrderPaid\**" />
-    <None Remove="Handlers\OrderShipped\**" />
-    <None Remove="Handlers\OrderStockConfirmed\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Commands\CreateOrderCommand.cs" />
-    <Compile Remove="Commands\CreateOrderCommandHandler.cs" />
-    <Compile Remove="Commands\OrderStatusCommand.cs" />
-    <Compile Remove="Commands\OrderStatusCommandHandler.cs" />
     <Compile Remove="Handlers\OrderStartedEvent\SendEmailToCustomerWhenOrderStartedDomainEventHandler.cs" />
     <Compile Remove="Validations\CreateOrderCommandValidator.cs" />
     <Compile Remove="Validations\IdentifiedCommandValidator.cs" />
@@ -42,17 +20,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Events\GracePeriodConfirmedIntegrationEvent.cs" />
+    <Compile Include="Events\OrderPaymentIntegrationEvent.cs" />
     <Compile Include="Events\OrderStarted.cs" />
-    <Compile Include="Events\UserCheckoutAcceptedConsumer.cs" />
+    <Compile Include="Events\OrderStartedIntegrationEvent.cs" />
+    <Compile Include="Events\OrderStatusChangedIntegrationEvent.cs" />
+    <Compile Include="Events\OrderStockConfirmedIntegrationEvent.cs" />
+    <Compile Include="Events\OrderStockRejectedIntegrationEvent.cs" />
     <Compile Include="Events\UserCheckoutAccepted.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Handlers\" />
   </ItemGroup>
 
 </Project>

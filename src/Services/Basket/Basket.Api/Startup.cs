@@ -1,5 +1,4 @@
-﻿using Basket.Api.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,25 +27,25 @@ namespace Basket
                 .AddCustomOptions(Configuration)
                 .AddCustomAuthentication(Configuration);
 
-            services.AddLinFx()
-                .AddHttpContextPrincipalAccessor()
-                .AddDistributedRedisCache(options =>
-                {
-                    options.InstanceName = "shopfx_basket:";
-                    options.Configuration = Configuration.GetConnectionString("ReidsConnection");
-                })
-                .AddEventBus(options =>
-                {
-                    //options.Durable = true;
-                    //options.BrokerName = "shopfx_event_bus";
-                    //options.QueueName = "shopfx_process_queue";
-                    //options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
-                    //{
-                    //    x.Host = "14.21.34.85";
-                    //    x.UserName = "admin";
-                    //    x.Password = "admin.123456";
-                    //});
-                });
+            //services.AddLinFx()
+            //    .AddHttpContextPrincipalAccessor()
+            //    .AddDistributedRedisCache(options =>
+            //    {
+            //        options.InstanceName = "shopfx_basket:";
+            //        options.Configuration = Configuration.GetConnectionString("ReidsConnection");
+            //    })
+            //    .AddEventBus(options =>
+            //    {
+            //        //options.Durable = true;
+            //        //options.BrokerName = "shopfx_event_bus";
+            //        //options.QueueName = "shopfx_process_queue";
+            //        //options.ConfigureEventBus = (fx, builder) => builder.UseRabbitMQ(fx, x =>
+            //        //{
+            //        //    x.Host = "14.21.34.85";
+            //        //    x.UserName = "admin";
+            //        //    x.Password = "admin.123456";
+            //        //});
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

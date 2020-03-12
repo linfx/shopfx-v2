@@ -31,7 +31,7 @@ namespace Ordering.Domain.Models.OrderAggregate
         public static OrderStatus Paid = new OrderStatus(4, nameof(Paid).ToLowerInvariant());
 
         /// <summary>
-        /// 发货
+        /// 已发货
         /// </summary>
         public static OrderStatus Shipped = new OrderStatus(5, nameof(Shipped).ToLowerInvariant());
 

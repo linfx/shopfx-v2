@@ -1,6 +1,8 @@
-﻿using Basket.Application.Models;
+﻿using Basket.Api.Services;
+using Basket.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Basket.Api.Controllers
@@ -11,6 +13,8 @@ namespace Basket.Api.Controllers
     [Authorize]
     public class CheckoutController : ControllerBase
     {
+        IBasketService _repository;
+
         /// <summary>
         /// 结算
         /// </summary>
@@ -21,15 +25,12 @@ namespace Basket.Api.Controllers
         [Route("checkout")]
         public async Task<IActionResult> Checkout(BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
         {
-            //var userId = _identitySvc.Principal.FindUserId();
+            basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ? guid : basketCheckout.RequestId;
 
-            //basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ?
-            //    guid : basketCheckout.RequestId;
+            var basket = await _repository.GetBasketAsync(User.Identity.Name);
 
-            //var basket = await _repository.GetBasketAsync(userId);
-
-            //if (basket == null)
-            //    return BadRequest();
+            if (basket == null)
+                return BadRequest();
 
             //var userName = User.Identity.Name;
 

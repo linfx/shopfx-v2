@@ -1,8 +1,12 @@
 ﻿using LinFx.Extensions.Mediator.Idempotency;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ordering.Application.Services;
+using Ordering.Application.ViewModels;
 using Ordering.Domain.Commands;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ordering.Api.Controllers
@@ -10,49 +14,53 @@ namespace Ordering.Api.Controllers
     /// <summary>
     /// 订单Api
     /// </summary>
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/orders")]
     public class OrdersController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IOrderService _orderService;
 
-        public OrdersController(IMediator mediator)
+        public OrdersController(
+            IMediator mediator,
+            IOrderService orderService)
         {
             _mediator = mediator;
+            _orderService = orderService;
+        }
+        
+        /// <summary>
+        /// 我的订单
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<OrderSummary>), 200)]
+        public async Task<IActionResult> Get()
+        {
+            var orders = await _orderService.GetOrdersFromUserAsync(User.Identity.Name);
+            return Ok(orders);
         }
 
-        //[Route("")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<OrderSummary>), (int)HttpStatusCode.OK)]
-        //public async Task<IActionResult> Get()
-        //{
-        //    var userid = _httpContextPrincipalAccessor.Principal.FindUserId();
-        //    var orders = await _orderService.GetOrdersFromUserAsync(userid);
-        //    return Ok(orders);
-        //}
-
-        ///// <summary>
-        ///// 获取订单
-        ///// </summary>
-        ///// <param name="orderId"></param>
-        ///// <returns></returns>
-        //[Route("{orderId:int}")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(Order), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType((int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> GetOrder(int orderId)
-        //{
-        //    try
-        //    {
-        //        var order = await _orderService.GetOrderAsync(orderId);
-        //        return Ok(order);
-        //    }
-        //    catch (KeyNotFoundException)
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+        /// <summary>
+        /// 获取订单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        [HttpGet("{orderId:long}")]
+        [ProducesResponseType(typeof(Order), 200)]
+        public async Task<IActionResult> GetOrder(long orderId)
+        {
+            try
+            {
+                var order = await _orderService.GetOrderAsync(orderId);
+                return Ok(order);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
         //[Route("cardTypes")]
         //[HttpGet]

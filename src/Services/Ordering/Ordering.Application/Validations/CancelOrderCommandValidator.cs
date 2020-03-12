@@ -7,7 +7,7 @@ namespace Ordering.Domain.Validations
     {
         public CancelOrderCommandValidator()
         {
-            RuleFor(order => order.OrderNo).NotEmpty().WithMessage("No orderId found");
+            RuleFor(order => order.OrderNumber).NotEmpty().WithMessage("找不到订单");
         }
     }
 }

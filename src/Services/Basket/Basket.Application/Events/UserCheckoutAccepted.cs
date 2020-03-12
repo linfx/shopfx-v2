@@ -3,6 +3,9 @@ using System;
 
 namespace Basket.Application.Events
 {
+    /// <summary>
+    /// 用户结算
+    /// </summary>
     public class UserCheckoutAccepted
     {
         public long UserId { get; }

@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.ViewModels;
-using Ordering.Infrastructure;
+using Ordering.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,7 +16,7 @@ namespace Ordering.Application.Services
             _context = context;
         }
 
-        public async Task<Order> GetOrderAsync(int id)
+        public async Task<Order> GetOrderAsync(long id)
         {
             var connection = _context.Database.GetDbConnection();
 
@@ -90,13 +90,13 @@ namespace Ordering.Application.Services
                 City = result[0].city,
                 Zipcode = result[0].zipcode,
                 Country = result[0].country,
-                OrderItems = new List<Orderitem>(),
+                OrderItems = new List<OrderItem>(),
                 Total = 0
             };
 
             foreach (dynamic item in result)
             {
-                var orderitem = new Orderitem
+                var orderitem = new OrderItem
                 {
                     ProductName = item.productname,
                     Units = item.units,

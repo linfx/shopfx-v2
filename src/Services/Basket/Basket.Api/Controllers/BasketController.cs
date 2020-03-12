@@ -14,7 +14,7 @@ namespace Basket.Api.Controllers
     [Route("api/basket")]
     public class BasketController : ControllerBase
     {
-        private readonly IBasketRepository _repository;
+        private readonly IBasketService _repository;
         //private readonly IHttpContextPrincipalAccessor _identitySvc;
         //private readonly IEventBus _eventBus;
 

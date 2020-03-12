@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Ordering.Domain.Commands
 {
     /// <summary>
-    /// 取消订单
+    /// 订单取消
     /// </summary>
     public class CancelOrderCommand : IRequest<bool>
     {
@@ -12,6 +12,6 @@ namespace Ordering.Domain.Commands
         /// 单号
         /// </summary>
         [DataMember]
-        public int OrderNo { get; set; }
+        public long OrderNumber { get; set; }
     }
 }

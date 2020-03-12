@@ -69,11 +69,11 @@
 
     public class OrderStatusChangedToStockConfirmedIntegrationEvent : IntegrationEvent
     {
-        public int OrderId { get; }
+        public long OrderId { get; }
         public string OrderStatus { get; }
         public string BuyerName { get; }
 
-        public OrderStatusChangedToStockConfirmedIntegrationEvent(int orderId, string orderStatus, string buyerName)
+        public OrderStatusChangedToStockConfirmedIntegrationEvent(long orderId, string orderStatus, string buyerName)
         {
             OrderId = orderId;
             OrderStatus = orderStatus;

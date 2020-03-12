@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Ordering.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ordering.Infrastructure
+namespace Ordering.Data
 {
     public class OrderingContext : LinFx.Data.DbContext
     {

@@ -166,9 +166,7 @@ namespace Ordering.Domain.Models.OrderAggregate
         public void SetShippedStatus()
         {
             if (_orderStatusId != OrderStatus.Paid.Id)
-            {
                 StatusChangeException(OrderStatus.Shipped);
-            }
 
             _orderStatusId = OrderStatus.Shipped.Id;
             _description = "The order was shipped.";

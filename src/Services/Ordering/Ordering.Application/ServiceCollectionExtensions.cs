@@ -4,8 +4,8 @@ using LinFx.Extensions.MediatR.FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Ordering.Data;
 using Ordering.Domain.Commands;
-using Ordering.Infrastructure;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

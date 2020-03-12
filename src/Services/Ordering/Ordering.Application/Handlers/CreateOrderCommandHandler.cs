@@ -1,4 +1,5 @@
 ﻿using LinFx.Data;
+using LinFx.Extensions.Mediator.Idempotency;
 using MediatR;
 using Ordering.Domain.Models.OrderAggregate;
 using System;
@@ -8,14 +9,13 @@ using System.Threading.Tasks;
 namespace Ordering.Domain.Commands
 {
     /// <summary>
-    /// 创建订单命令处理器
+    /// 创建订单命令处理
     /// </summary>
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, bool>
     {
         private readonly IRepository<Order> _orderRepository;
         //private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
-        // Using DI to inject infrastructure persistence Repositories
         public CreateOrderCommandHandler(
             IRepository<Order> orderRepository)
         {
@@ -42,23 +42,16 @@ namespace Ordering.Domain.Commands
             }
 
             _orderRepository.Add(order);
-
-            //await _orderRepository.UnitOfWork.SaveChangesAsync();
             await _orderRepository.SaveChangesAsync();
             return true;
         }
     }
 
-    //// Use for Idempotency in Command process
-    //public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateOrderCommand, bool>
-    //{
-    //    public CreateOrderIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager) : base(mediator, requestManager)
-    //    {
-    //    }
+    // Use for Idempotency in Command process
+    public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateOrderCommand, bool>
+    {
+        public CreateOrderIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager) : base(mediator, requestManager) { }
 
-    //    protected override bool CreateResultForDuplicateRequest()
-    //    {
-    //        return true;                // Ignore duplicate requests for creating order.
-    //    }
-    //}
+        protected override bool CreateResultForDuplicateRequest() => true;
+    }
 }

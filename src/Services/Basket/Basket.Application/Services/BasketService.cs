@@ -6,16 +6,16 @@ using Basket.Application.Models;
 
 namespace Basket.Api.Services
 {
-    public class RedisBasketRepository : IBasketRepository
+    public class BasketService : IBasketService
     {
-        private readonly ILogger<RedisBasketRepository> _logger;
+        private readonly ILogger _logger;
         private readonly IDistributedCache _cache;
 
-        public RedisBasketRepository(
+        public BasketService(
             ILoggerFactory loggerFactory,
             IDistributedCache cache)
         {
-            _logger = loggerFactory.CreateLogger<RedisBasketRepository>();
+            _logger = loggerFactory.CreateLogger<BasketService>();
             _cache = cache;
         }
 

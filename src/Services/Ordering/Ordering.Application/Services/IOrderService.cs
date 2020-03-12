@@ -6,7 +6,7 @@ namespace Ordering.Application.Services
 {
     public interface IOrderService
     {
-        Task<Order> GetOrderAsync(int id);
+        Task<Order> GetOrderAsync(long id);
 
         Task<IEnumerable<OrderSummary>> GetOrdersFromUserAsync(string userId);
 

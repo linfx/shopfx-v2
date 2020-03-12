@@ -21,9 +21,6 @@ namespace Ordering.Domain.Commands
     public class CreateOrderCommand : IRequest<bool>
     {
         [DataMember]
-        private readonly List<OrderItemDto> _orderItems;
-
-        [DataMember]
         public long UserId { get; private set; }
 
         [DataMember]
@@ -60,16 +57,11 @@ namespace Ordering.Domain.Commands
         public int CardTypeId { get; private set; }
 
         [DataMember]
-        public IEnumerable<OrderItemDto> OrderItems => _orderItems;
-
-        public CreateOrderCommand()
-        {
-            _orderItems = new List<OrderItemDto>();
-        }
+        public IEnumerable<OrderItemDto> OrderItems { get; } = new List<OrderItemDto>();
 
         public CreateOrderCommand(List<BasketItem> basketItems, long userId, string userName, string city, string street, string state, string country, string zipcode,
             string cardNumber, string cardHolderName, DateTime cardExpiration,
-            string cardSecurityNumber, int cardTypeId) : this()
+            string cardSecurityNumber, int cardTypeId)
         {
             UserId = userId;
             UserName = userName;
@@ -84,7 +76,7 @@ namespace Ordering.Domain.Commands
             CardSecurityNumber = cardSecurityNumber;
             CardTypeId = cardTypeId;
             CardExpiration = cardExpiration;
-            //_orderItems = basketItems.ToOrderItemsDTO().ToList();
+            //OrderItems = basketItems.ToOrderItemsDTO().ToList();
         }
 
         public class OrderItemDto
@@ -93,6 +85,10 @@ namespace Ordering.Domain.Commands
             public string ProductName { get; set; }
             public decimal UnitPrice { get; set; }
             public decimal Discount { get; set; }
+
+            /// <summary>
+            /// 单位
+            /// </summary>
             public int Units { get; set; }
             public string PictureUrl { get; set; }
         }

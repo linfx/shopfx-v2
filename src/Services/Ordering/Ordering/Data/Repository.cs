@@ -7,9 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using DbContext = LinFx.Data.DbContext;
 
-namespace Ordering.Infrastructure
+namespace Ordering.Data
 {
     /// <summary>
     /// 仓储
@@ -24,7 +23,7 @@ namespace Ordering.Infrastructure
             DbSet = Context.Set<TEntity>();
         }
 
-        protected DbContext Context { get; }
+        protected OrderingContext Context { get; }
 
         protected DbSet<TEntity> DbSet { get; }
 

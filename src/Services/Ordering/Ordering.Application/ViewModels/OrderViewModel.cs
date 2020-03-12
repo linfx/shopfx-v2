@@ -3,14 +3,6 @@ using System.Collections.Generic;
 
 namespace Ordering.Application.ViewModels
 {
-    public class Orderitem
-    {
-        public string ProductName { get; set; }
-        public int Units { get; set; }
-        public double Unitprice { get; set; }
-        public string Pictureurl { get; set; }
-    }
-
     public class Order
     {
         public int OrderNumber { get; set; }
@@ -22,7 +14,15 @@ namespace Ordering.Application.ViewModels
         public string Zipcode { get; set; }
         public string Country { get; set; }
         public decimal Total { get; set; }
-        public List<Orderitem> OrderItems { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
+    }
+
+    public class OrderItem
+    {
+        public string ProductName { get; set; }
+        public int Units { get; set; }
+        public double Unitprice { get; set; }
+        public string Pictureurl { get; set; }
     }
 
     public class OrderSummary

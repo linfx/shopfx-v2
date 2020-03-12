@@ -35,9 +35,7 @@ namespace Ordering.Application.Handlers.OrderStartedEvent
             bool buyerOriginallyExisted = buyer == null ? false : true;
 
             if (!buyerOriginallyExisted)
-            {
                 buyer = new Buyer(orderStartedEvent.UserId, orderStartedEvent.UserName);
-            }
 
             buyer.VerifyOrAddPaymentMethod(cardTypeId,
                                            $"Payment Method on {DateTime.UtcNow}",
