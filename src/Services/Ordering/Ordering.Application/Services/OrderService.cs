@@ -100,8 +100,8 @@ namespace Ordering.Application.Services
                 {
                     ProductName = item.productname,
                     Units = item.units,
-                    Unitprice = (double)item.unitprice,
-                    Pictureurl = item.pictureurl
+                    //UnitPrice = (double)item.UnitPrice,
+                    //Pictureurl = item.pictureurl
                 };
 
                 order.Total += item.units * item.unitprice;

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Ordering.Application.Models;
+using Ordering.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -18,7 +19,7 @@ namespace Ordering.Domain.Commands
     // https://msdn.microsoft.com/en-us/library/bb383979.aspx
     /// </summary>
     [DataContract]
-    public class CreateOrderCommand : IRequest<bool>
+    public partial class CreateOrderCommand : IRequest<bool>
     {
         [DataMember]
         public long UserId { get; private set; }
@@ -57,7 +58,7 @@ namespace Ordering.Domain.Commands
         public int CardTypeId { get; private set; }
 
         [DataMember]
-        public IEnumerable<OrderItemDto> OrderItems { get; } = new List<OrderItemDto>();
+        public IEnumerable<OrderItem> OrderItems { get; } = new List<OrderItem>();
 
         public CreateOrderCommand(List<BasketItem> basketItems, long userId, string userName, string city, string street, string state, string country, string zipcode,
             string cardNumber, string cardHolderName, DateTime cardExpiration,
@@ -77,20 +78,6 @@ namespace Ordering.Domain.Commands
             CardTypeId = cardTypeId;
             CardExpiration = cardExpiration;
             //OrderItems = basketItems.ToOrderItemsDTO().ToList();
-        }
-
-        public class OrderItemDto
-        {
-            public int ProductId { get; set; }
-            public string ProductName { get; set; }
-            public decimal UnitPrice { get; set; }
-            public decimal Discount { get; set; }
-
-            /// <summary>
-            /// 单位
-            /// </summary>
-            public int Units { get; set; }
-            public string PictureUrl { get; set; }
         }
     }
 }

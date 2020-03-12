@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Ordering.Application.ViewModels
 {
-    public class OrderDraftResult
+    public class OrderDraft
     {
+        public IEnumerable<OrderItem> OrderItems { get; set; }
     }
 
     //public class OrderDraftDTO
