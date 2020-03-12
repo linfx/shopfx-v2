@@ -14,14 +14,15 @@ namespace Ordering.Application.Events
     public class UserCheckoutAcceptedConsumer : IConsumer<UserCheckoutAccepted>
     {
         private readonly ILogger _logger;
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
         public UserCheckoutAcceptedConsumer(
-            ILogger<UserCheckoutAcceptedConsumer> logger,
-            IMediator mediator)
+            ILogger<UserCheckoutAcceptedConsumer> logger
+            //IMediator mediator
+            )
         {
             _logger = logger;
-            _mediator = mediator;
+            //_mediator = mediator;
         }
 
         public async Task Consume(ConsumeContext<UserCheckoutAccepted> context)
