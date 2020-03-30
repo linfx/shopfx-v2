@@ -25,7 +25,7 @@ namespace Ordering.Api
             services
                 .AddMediatR(GetType().Assembly)
                 .AddOrdering(Configuration)
-                .AddCustomizedMvc();
+                .AddControllers();
 
             services.AddSwaggerGen(c =>
             {

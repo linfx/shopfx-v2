@@ -9,17 +9,12 @@ namespace Ordering.Domain.Models.OrderAggregate
     /// <summary>
     /// 订单
     /// </summary>
-    public class Order : AggregateRoot<long>
+    public partial class Order : AggregateRoot<long>
     {
-        // DDD Patterns comment
-        // Using private fields, allowed since EF Core 1.1, is a much better encapsulation
-        // aligned with DDD Aggregates and Domain Entities (Instead of properties and property collections)
         private long? _buyerId;
         private int? _paymentMethodId;
         private string _description;
-        private int _orderStatusId;
         private DateTime _orderDate;
-        // Draft orders have this set to true. Currently we don't check anywhere the draft status of an Order, but we could do it if needed
         private bool _isDraft;
 
         public long? GetBuyerId => _buyerId;
@@ -29,17 +24,6 @@ namespace Ordering.Domain.Models.OrderAggregate
         /// Value Object pattern example persisted as EF Core 2.0 owned entity
         /// </summary>
         public Address Address { get; private set; }
-
-        /// <summary>
-        /// 订单状态
-        /// </summary>
-        public OrderStatus OrderStatus { get; private set; }
-
-        // DDD Patterns comment
-        // Using a private collection field, better for DDD Aggregate's encapsulation
-        // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
-        // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
-        private readonly List<OrderItem> _orderItems;
 
         /// <summary>
         /// 订单明细
@@ -78,47 +62,52 @@ namespace Ordering.Domain.Models.OrderAggregate
             return order;
         }
 
-        // DDD Patterns comment
-        // This Order AggregateRoot's method "AddOrderitem()" should be the only way to add Items to the Order,
-        // so any behavior (discounts, etc.) and validations are controlled by the AggregateRoot 
-        // in order to maintain consistency between the whole Aggregate. 
-        public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
-        {
-            var existingOrderForProduct = _orderItems.Where(o => o.ProductId == productId).SingleOrDefault();
-            if (existingOrderForProduct != null)
-            {
-                //if previous line exist modify it with higher discount  and units..
-                if (discount > existingOrderForProduct.GetCurrentDiscount())
-                {
-                    existingOrderForProduct.SetNewDiscount(discount);
-                }
-                existingOrderForProduct.AddUnits(units);
-            }
-            else
-            {
-                //add validated new order item
-                var orderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
-                _orderItems.Add(orderItem);
-            }
-        }
-
         /// <summary>
         /// 支付方式
         /// </summary>
         /// <param name="id"></param>
-        public void SetPaymentId(int id)
-        {
-            _paymentMethodId = id;
-        }
+        public void SetPaymentId(int id) => _paymentMethodId = id;
 
         /// <summary>
         /// 客户
         /// </summary>
         /// <param name="id"></param>
-        public void SetBuyerId(long id)
+        public void SetBuyerId(long id) => _buyerId = id;
+
+        /// <summary>
+        /// 获取总金额
+        /// </summary>
+        /// <returns></returns>
+        public decimal GetTotal() => _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
+
+        /// <summary>
+        /// 新建订单事件
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userName"></param>
+        /// <param name="cardTypeId"></param>
+        /// <param name="cardNumber"></param>
+        /// <param name="cardSecurityNumber"></param>
+        /// <param name="cardHolderName"></param>
+        /// <param name="cardExpiration"></param>
+        private void AddOrderStartedDomainEvent(long userId, string userName, int cardTypeId, string cardNumber, string cardSecurityNumber, string cardHolderName, DateTime cardExpiration)
         {
-            _buyerId = id;
+            var orderStartedDomainEvent = new OrderStartedDomainEvent(this, userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
+            AddDomainEvent(orderStartedDomainEvent);
         }
+    }
+
+    /// <summary>
+    /// 订单状态
+    /// </summary>
+    public partial class Order
+    {
+        private int _orderStatusId;
+
+        /// <summary>
+        /// 订单状态
+        /// </summary>
+        public OrderStatus OrderStatus { get; private set; }
 
         /// <summary>
         /// 等待确认
@@ -189,6 +178,10 @@ namespace Ordering.Domain.Models.OrderAggregate
             AddDomainEvent(new OrderCancelledDomainEvent(this));
         }
 
+        /// <summary>
+        /// 取消订单 - 库存不足
+        /// </summary>
+        /// <param name="orderStockRejectedItems"></param>
         public void SetCancelledStatusWhenStockIsRejected(IEnumerable<int> orderStockRejectedItems)
         {
             if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
@@ -204,30 +197,37 @@ namespace Ordering.Domain.Models.OrderAggregate
             }
         }
 
-        public decimal GetTotal()
-        {
-            return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
-        }
-
-        /// <summary>
-        /// 新建订单事件
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="userName"></param>
-        /// <param name="cardTypeId"></param>
-        /// <param name="cardNumber"></param>
-        /// <param name="cardSecurityNumber"></param>
-        /// <param name="cardHolderName"></param>
-        /// <param name="cardExpiration"></param>
-        private void AddOrderStartedDomainEvent(long userId, string userName, int cardTypeId, string cardNumber, string cardSecurityNumber, string cardHolderName, DateTime cardExpiration)
-        {
-            var orderStartedDomainEvent = new OrderStartedDomainEvent(this, userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
-            AddDomainEvent(orderStartedDomainEvent);
-        }
-
         private void StatusChangeException(OrderStatus orderStatusToChange)
         {
             throw new OrderingDomainException($"Is not possible to change the order status from {OrderStatus.Name} to {orderStatusToChange.Name}.");
+        }
+    }
+
+    /// <summary>
+    /// 订单明细
+    /// </summary>
+    public partial class Order
+    {
+        private readonly List<OrderItem> _orderItems;
+
+        public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
+        {
+            var existingOrderForProduct = _orderItems.Where(o => o.ProductId == productId).SingleOrDefault();
+            if (existingOrderForProduct != null)
+            {
+                //if previous line exist modify it with higher discount  and units..
+                if (discount > existingOrderForProduct.GetCurrentDiscount())
+                {
+                    existingOrderForProduct.SetNewDiscount(discount);
+                }
+                existingOrderForProduct.AddUnits(units);
+            }
+            else
+            {
+                //add validated new order item
+                var orderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
+                _orderItems.Add(orderItem);
+            }
         }
     }
 }

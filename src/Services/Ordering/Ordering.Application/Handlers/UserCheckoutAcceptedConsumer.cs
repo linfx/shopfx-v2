@@ -6,6 +6,7 @@ using Ordering.Application.Events;
 using Ordering.Domain.Commands;
 using System;
 using System.Threading.Tasks;
+using IMediator = MediatR.IMediator;
 
 namespace Ordering.Application.Handlers
 {

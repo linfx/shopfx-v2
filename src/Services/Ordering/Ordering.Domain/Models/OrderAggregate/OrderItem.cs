@@ -4,12 +4,9 @@ namespace Ordering.Domain.Models.OrderAggregate
 {
     public class OrderItem : Entity<long>
     {
-        // DDD Patterns comment
-        // Using private fields, allowed since EF Core 1.1, is a much better encapsulation
-        // aligned with DDD Aggregates and Domain Entities (Instead of properties and property collections)
-        private string _productName;
-        private string _pictureUrl;
-        private decimal _unitPrice;
+        private readonly string _productName;
+        private readonly string _pictureUrl;
+        private readonly decimal _unitPrice;
         private decimal _discount;
         private int _units;
         public int ProductId { get; private set; }
@@ -54,6 +51,10 @@ namespace Ordering.Domain.Models.OrderAggregate
             _discount = discount;
         }
 
+        /// <summary>
+        /// 增加数量
+        /// </summary>
+        /// <param name="units"></param>
         public void AddUnits(int units)
         {
             if (units < 0)

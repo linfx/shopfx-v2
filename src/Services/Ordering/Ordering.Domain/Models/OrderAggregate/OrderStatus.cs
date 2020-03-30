@@ -11,7 +11,7 @@ namespace Ordering.Domain.Models.OrderAggregate
     public class OrderStatus : Enumeration
     {
         /// <summary>
-        /// 提交
+        /// 订单提交
         /// </summary>
         public static OrderStatus Submitted = new OrderStatus(1, nameof(Submitted).ToLowerInvariant());
 
