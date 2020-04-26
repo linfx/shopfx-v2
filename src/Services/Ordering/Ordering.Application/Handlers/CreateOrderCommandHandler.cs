@@ -1,9 +1,7 @@
-﻿using LinFx.Data;
-using LinFx.Data.Abstractions;
+﻿using LinFx.Data.Abstractions;
 using LinFx.Extensions.Mediator.Idempotency;
 using MediatR;
 using Ordering.Domain.Models.OrderAggregate;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +18,7 @@ namespace Ordering.Domain.Commands
         public CreateOrderCommandHandler(
             IRepository<Order> orderRepository)
         {
-            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+            _orderRepository = orderRepository;
             //_orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
         }
 

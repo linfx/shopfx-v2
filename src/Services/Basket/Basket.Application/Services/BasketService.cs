@@ -19,25 +19,24 @@ namespace Basket.Api.Services
             _cache = cache;
         }
 
-        public async Task<bool> DeleteBasketAsync(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             await _cache.RemoveAsync(id);
             return true;
         }
 
-        public async Task<CustomerBasket> GetBasketAsync(string customerId)
+        public async Task<CustomerBasket> GetAsync(string customerId)
         {
             var data = await _cache.GetStringAsync(customerId);
             if (string.IsNullOrEmpty(data))
-            {
                 return null;
-            }
+
             return data.ToObject<CustomerBasket>();
         }
 
-        public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
+        public async Task<CustomerBasket> UpdateAsync(CustomerBasket basket)
         {
-            var cache = await GetBasketAsync(basket.BuyerId);
+            var cache = await GetAsync(basket.BuyerId);
 
             //basket.Items.ForEach(p =>
             //{

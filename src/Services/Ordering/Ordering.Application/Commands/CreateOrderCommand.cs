@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Ordering.Domain.Commands
 {
     /// <summary>
-    /// 创建订单
+    /// 创建订单命令
     /// </summary>
     /// DDD and CQRS patterns comment: Note that it is recommended to implement immutable Commands
     // In this case, its immutability is achieved by having all the setters as private
@@ -58,6 +58,9 @@ namespace Ordering.Domain.Commands
         [DataMember]
         public int CardTypeId { get; private set; }
 
+        /// <summary>
+        /// 商品明细
+        /// </summary>
         [DataMember]
         public IEnumerable<OrderItem> OrderItems { get; } = new List<OrderItem>();
 

@@ -1,17 +1,15 @@
 ﻿using LinFx.Extensions.Mediator.Idempotency;
 using MassTransit;
-using MediatR;
 using Microsoft.Extensions.Logging;
-using Ordering.Application.Events;
 using Ordering.Domain.Commands;
 using System;
 using System.Threading.Tasks;
 using IMediator = MediatR.IMediator;
 
-namespace Ordering.Application.Handlers
+namespace Ordering.Application.Events
 {
     /// <summary>
-    /// 用户结算消息
+    /// 结算消费
     /// </summary>
     public class UserCheckoutAcceptedConsumer : IConsumer<UserCheckoutAccepted>
     {
@@ -32,12 +30,14 @@ namespace Ordering.Application.Handlers
             var eventMsg = context.Message;
             if (eventMsg.RequestId != Guid.Empty)
             {
-                var createOrderCommand = new CreateOrderCommand(eventMsg.Basket.Items, eventMsg.UserId, eventMsg.UserName, 
+                // 创建订单指令
+                var createOrderCommand = new CreateOrderCommand(eventMsg.Basket.Items, eventMsg.UserId, eventMsg.UserName,
                     eventMsg.City, eventMsg.Street,
                     eventMsg.State, eventMsg.Country, eventMsg.ZipCode,
                     eventMsg.CardNumber, eventMsg.CardHolderName, eventMsg.CardExpiration,
                     eventMsg.CardSecurityNumber, eventMsg.CardTypeId);
 
+                // 请求创建订单
                 var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, eventMsg.RequestId);
                 result = await _mediator.Send(requestCreateOrder);
             }

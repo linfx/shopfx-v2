@@ -2,7 +2,6 @@
 using Basket.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Basket.Api.Controllers
@@ -14,70 +13,71 @@ namespace Basket.Api.Controllers
     [Route("api/basket")]
     public class BasketController : ControllerBase
     {
-        private readonly IBasketService _repository;
-        //private readonly IHttpContextPrincipalAccessor _identitySvc;
-        //private readonly IEventBus _eventBus;
+        private readonly IBasketService _basketService;
 
-        //public BasketController(IBasketRepository repository,
-        //    IHttpContextPrincipalAccessor identityService,
-        //    IEventBus eventBus)
-        //{
-        //    _repository = repository;
-        //    _identitySvc = identityService;
-        //    _eventBus = eventBus;
-        //}
-
+        /// <summary>
+        /// 获取购物车
+        /// </summary>
+        /// <param name="id">购物车Id</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CustomerBasket), 200)]
         public async Task<IActionResult> Get(string id)
         {
-            var basket = await _repository.GetBasketAsync(id);
+            var basket = await _basketService.GetAsync(id);
             if (basket == null)
-            {
-                return Ok(new CustomerBasket(id) { });
-            }
+                return Ok(new CustomerBasket(id));
+
             return Ok(basket);
         }
 
+        /// <summary>
+        /// 更新购物车
+        /// </summary>
+        /// <param name="input">购物车</param>
+        /// <returns></returns>
         [HttpPut]
-        [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Put([FromBody]CustomerBasket value)
+        [ProducesResponseType(typeof(CustomerBasket), 200)]
+        public async Task<IActionResult> Put(CustomerBasket input)
         {
-            var basket = await _repository.UpdateBasketAsync(value);
+            var basket = await _basketService.UpdateAsync(input);
             return Ok(basket);
         }
 
+        /// <summary>
+        /// 新增购物车
+        /// </summary>
+        /// <param name="input">购物车</param>
+        /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(typeof(CustomerBasket), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Post([FromBody]CustomerBasket value)
+        [ProducesResponseType(typeof(CustomerBasket), 200)]
+        public async Task<IActionResult> Post(CustomerBasket input)
         {
-            var basket = await _repository.GetBasketAsync(value.BuyerId);
+            var basket = await _basketService.GetAsync(input.BuyerId);
             if (basket == null)
-            {
-                basket = new CustomerBasket(value.BuyerId);
-            }
+                basket = new CustomerBasket(input.BuyerId);
 
-            foreach (var item in value.Items)
+            foreach (var item in input.Items)
             {
                 var tmp = basket.Items.FirstOrDefault(p => p.ProductId == item.ProductId);
                 if (tmp == null)
-                {
                     basket.Items.Add(item);
-                }
                 else
-                {
                     tmp.Quantity++;
-                }
             }
 
-            await _repository.UpdateBasketAsync(basket);
+            await _basketService.UpdateAsync(basket);
             return Ok(basket);
         }
 
+        /// <summary>
+        /// 删除购物车
+        /// </summary>
+        /// <param name="id">购物车Id</param>
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            _repository.DeleteBasketAsync(id);
+            _basketService.DeleteAsync(id);
         }
     }
 }

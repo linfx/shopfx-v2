@@ -28,6 +28,7 @@
     <Compile Include="Events\OrderStockConfirmedIntegrationEvent.cs" />
     <Compile Include="Events\OrderStockRejectedIntegrationEvent.cs" />
     <Compile Include="Events\UserCheckoutAccepted.cs" />
+    <Compile Include="Events\UserCheckoutAcceptedConsumer.cs" />
   </ItemGroup>
 
   <ItemGroup>

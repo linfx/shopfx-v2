@@ -4,13 +4,24 @@ using System;
 namespace Basket.Application.Events
 {
     /// <summary>
-    /// 用户结算
+    /// 结算消息
     /// </summary>
     public class UserCheckoutAccepted
     {
-        public long UserId { get; }
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        public long UserId { get; set; }
 
-        public string UserName { get; }
+        /// <summary>
+        /// 用户账号
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 客户
+        /// </summary>
+        public string Buyer { get; set; }
 
         public string City { get; set; }
 
@@ -32,10 +43,11 @@ namespace Basket.Application.Events
 
         public int CardTypeId { get; set; }
 
-        public string Buyer { get; set; }
-
         public Guid RequestId { get; set; }
 
-        public CustomerBasket Basket { get; }
+        /// <summary>
+        /// 购物车
+        /// </summary>
+        public CustomerBasket Basket { get; set; }
     }
 }

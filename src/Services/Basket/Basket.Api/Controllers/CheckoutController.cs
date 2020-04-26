@@ -1,4 +1,5 @@
 ﻿using Basket.Api.Services;
+using Basket.Application.Events;
 using Basket.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,18 @@ namespace Basket.Api.Controllers
     [Authorize]
     public class CheckoutController : ControllerBase
     {
-        IBasketService _repository;
+        private readonly IBasketService _repository;
+
+        public CheckoutController(IBasketService repository)
+        {
+            _repository = repository;
+        }
 
         /// <summary>
         /// 结算
         /// </summary>
-        /// <param name="basketCheckout"></param>
-        /// <param name="requestId"></param>
+        /// <param name="basketCheckout">结算表单</param>
+        /// <param name="requestId">请求Id</param>
         /// <returns></returns>
         [HttpPost]
         [Route("checkout")]
@@ -27,8 +33,7 @@ namespace Basket.Api.Controllers
         {
             basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ? guid : basketCheckout.RequestId;
 
-            var basket = await _repository.GetBasketAsync(User.Identity.Name);
-
+            var basket = await _repository.GetAsync(User.Identity.Name);
             if (basket == null)
                 return BadRequest();
 
@@ -42,6 +47,9 @@ namespace Basket.Api.Controllers
             //// ordering.api to convert basket to order and proceeds with
             //// order creation process
             //await _eventBus.PublishAsync(eventMessage);
+
+            var eventMsg = basketCheckout.MapTo<UserCheckoutAccepted>();
+            eventMsg.Basket = basket;
 
             return Accepted();
         }

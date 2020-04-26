@@ -12,11 +12,23 @@ namespace Ordering.Domain.Models.OrderAggregate
         private readonly decimal _unitPrice;
         private decimal _discount;
         private int _units;
-        public int ProductId { get; private set; }
+        public long ProductId { get; private set; }
 
+        /// <summary>
+        /// 订单明细
+        /// </summary>
         protected OrderItem() { }
 
-        public OrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
+        /// <summary>
+        /// 订单明细
+        /// </summary>
+        /// <param name="productId">商品Id</param>
+        /// <param name="productName">商品名称</param>
+        /// <param name="unitPrice">单价</param>
+        /// <param name="discount">折扣</param>
+        /// <param name="pictureUrl">商品图片</param>
+        /// <param name="units">数量</param>
+        public OrderItem(long productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
         {
             if (units <= 0)
                 throw new OrderingDomainException("Invalid number of units");
@@ -28,8 +40,8 @@ namespace Ordering.Domain.Models.OrderAggregate
             _productName = productName;
             _unitPrice = unitPrice;
             _discount = discount;
-            _units = units;
             _pictureUrl = pictureUrl;
+            _units = units;
         }
 
         /// <summary>

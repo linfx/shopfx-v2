@@ -1,5 +1,4 @@
-﻿using LinFx.Data;
-using LinFx.Data.Abstractions;
+﻿using LinFx.Data.Abstractions;
 using LinFx.Extensions.Mediator.Idempotency;
 using LinFx.Extensions.MediatR.FluentValidation;
 using MediatR;
@@ -23,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services
                 .AddHttpClient()
                 .AddTransient(typeof(IRepository<>), typeof(Repository<>))
-                //.AddTransient(typeof(IRepository<,>), typeof(Repository<,>))
+                .AddTransient(typeof(IRepository<,>), typeof(Repository<,>))
                 //services.AddTransient<IAuthorizationHandler, PermissionHandler>();
                 //services.AddScoped<SlugRouteValueTransformer>();
                 //.AddScoped<ServiceFactory>(p => p.GetService)

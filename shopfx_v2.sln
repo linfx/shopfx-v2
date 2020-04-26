@@ -21,15 +21,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.Application", "src\S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{62EE08FD-CC30-4291-AF0D-3BE683FF089E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Domain", "src\Services\Catalog\Catalog.Domain\Catalog.Domain.csproj", "{0801E4A3-7BDD-4507-879B-54C3AD9AD61F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Domain", "src\Services\Catalog\Catalog.Domain\Catalog.Domain.csproj", "{0801E4A3-7BDD-4507-879B-54C3AD9AD61F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Application", "src\Services\Catalog\Catalog.Application\Catalog.Application.csproj", "{F443D24E-CB7F-46AA-8CAD-5D6F05894BDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Application", "src\Services\Catalog\Catalog.Application\Catalog.Application.csproj", "{F443D24E-CB7F-46AA-8CAD-5D6F05894BDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Services\Catalog\Catalog.Api\Catalog.Api.csproj", "{372E8640-398A-4130-A364-59BB4E976D6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Api", "src\Services\Catalog\Catalog.Api\Catalog.Api.csproj", "{372E8640-398A-4130-A364-59BB4E976D6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Infrastructure", "src\Services\Catalog\Catalog.Infrastructure\Catalog.Infrastructure.csproj", "{E4E5362F-F222-46C7-B88A-6E56811702F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Infrastructure", "src\Services\Catalog\Catalog.Infrastructure\Catalog.Infrastructure.csproj", "{E4E5362F-F222-46C7-B88A-6E56811702F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering", "src\Services\Ordering\Ordering\Ordering.csproj", "{501F2992-486C-4A4E-B5FA-2F2FC256575C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{C542C42F-DC8F-45D1-8F75-DAE33A6AF166}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinFx", "..\LinFx\src\LinFx\LinFx.csproj", "{C8C456A6-11ED-4155-9933-5916DF429A65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +81,10 @@ Global
 		{501F2992-486C-4A4E-B5FA-2F2FC256575C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{501F2992-486C-4A4E-B5FA-2F2FC256575C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{501F2992-486C-4A4E-B5FA-2F2FC256575C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8C456A6-11ED-4155-9933-5916DF429A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8C456A6-11ED-4155-9933-5916DF429A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8C456A6-11ED-4155-9933-5916DF429A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8C456A6-11ED-4155-9933-5916DF429A65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +103,7 @@ Global
 		{372E8640-398A-4130-A364-59BB4E976D6F} = {62EE08FD-CC30-4291-AF0D-3BE683FF089E}
 		{E4E5362F-F222-46C7-B88A-6E56811702F4} = {62EE08FD-CC30-4291-AF0D-3BE683FF089E}
 		{501F2992-486C-4A4E-B5FA-2F2FC256575C} = {FF518818-C14A-4706-B651-067FF2AB6E81}
+		{C8C456A6-11ED-4155-9933-5916DF429A65} = {C542C42F-DC8F-45D1-8F75-DAE33A6AF166}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38A7E38E-BDBC-4748-B3CE-EEB0E8C27F72}

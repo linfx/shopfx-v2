@@ -4,13 +4,24 @@ using System;
 namespace Ordering.Application.Events
 {
     /// <summary>
-    /// 用户结算
+    /// 结算消息
     /// </summary>
     public class UserCheckoutAccepted
     {
+        /// <summary>
+        /// 用户Id
+        /// </summary>
         public long UserId { get; set; }
 
+        /// <summary>
+        /// 用户账号
+        /// </summary>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// 客户
+        /// </summary>
+        public string Buyer { get; set; }
 
         public string City { get; set; }
 
@@ -31,8 +42,6 @@ namespace Ordering.Application.Events
         public string CardSecurityNumber { get; set; }
 
         public int CardTypeId { get; set; }
-
-        public string Buyer { get; set; }
 
         public Guid RequestId { get; set; }
 

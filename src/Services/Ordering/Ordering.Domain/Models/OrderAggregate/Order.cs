@@ -97,18 +97,17 @@ namespace Ordering.Domain.Models.OrderAggregate
         /// <summary>
         /// 增加明细
         /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="productName"></param>
-        /// <param name="unitPrice"></param>
-        /// <param name="discount"></param>
-        /// <param name="pictureUrl"></param>
-        /// <param name="units"></param>
-        public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
+        /// <param name="productId">商品Id</param>
+        /// <param name="productName">商品名称</param>
+        /// <param name="unitPrice">单价</param>
+        /// <param name="discount">折扣</param>
+        /// <param name="pictureUrl">商品图片</param>
+        /// <param name="units">数量</param>
+        public void AddOrderItem(long productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
         {
-            var existingOrderForProduct = _orderItems.Where(o => o.ProductId == productId).SingleOrDefault();
+            var existingOrderForProduct = _orderItems.SingleOrDefault(o => o.ProductId == productId);
             if (existingOrderForProduct != null)
             {
-                //if previous line exist modify it with higher discount  and units..
                 if (discount > existingOrderForProduct.GetCurrentDiscount())
                     existingOrderForProduct.SetNewDiscount(discount);
 
@@ -116,7 +115,6 @@ namespace Ordering.Domain.Models.OrderAggregate
             }
             else
             {
-                //add validated new order item
                 var orderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
                 _orderItems.Add(orderItem);
             }
@@ -238,7 +236,7 @@ namespace Ordering.Domain.Models.OrderAggregate
         /// 取消订单 - 库存不足
         /// </summary>
         /// <param name="orderStockRejectedItems"></param>
-        public void SetCancelledStatusWhenStockIsRejected(IEnumerable<int> orderStockRejectedItems)
+        public void SetCancelledStatusWhenStockIsRejected(IEnumerable<long> orderStockRejectedItems)
         {
             if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
             {

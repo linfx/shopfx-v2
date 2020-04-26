@@ -2,6 +2,9 @@
 
 namespace Basket.Application.Models
 {
+    /// <summary>
+    /// 结算表单
+    /// </summary>
     public class BasketCheckout
     {
         public string City { get; set; }
@@ -26,6 +29,9 @@ namespace Basket.Application.Models
 
         public string Buyer { get; set; }
 
+        /// <summary>
+        /// 请求Id
+        /// </summary>
         public Guid RequestId { get; set; }
     }
 }
