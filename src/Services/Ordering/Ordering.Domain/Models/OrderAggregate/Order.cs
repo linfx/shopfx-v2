@@ -1,5 +1,6 @@
 ﻿using LinFx.Domain.Models;
 using Ordering.Domain.Events;
+using Stateless;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,20 +22,8 @@ namespace Ordering.Domain.Models.OrderAggregate
 
         /// <summary>
         /// 订单地址
-        /// Value Object pattern example persisted as EF Core 2.0 owned entity
         /// </summary>
         public Address Address { get; private set; }
-
-        /// <summary>
-        /// 订单明细
-        /// </summary>
-        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
-
-        protected Order()
-        {
-            _isDraft = false;
-            _orderItems = new List<OrderItem>();
-        }
 
         public Order(long userId, string userName, Address address, int cardTypeId, string cardNumber, string cardSecurityNumber, string cardHolderName, DateTime cardExpiration, int? buyerId = null, int? paymentMethodId = null) : this()
         {
@@ -44,8 +33,6 @@ namespace Ordering.Domain.Models.OrderAggregate
             _orderDate = DateTime.UtcNow;
             Address = address;
 
-            // Add the OrderStarterDomainEvent to the domain events collection 
-            // to be raised/dispatched when comitting changes into the Database [ After DbContext.SaveChanges() ]
             AddOrderStartedDomainEvent(userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
         }
 
@@ -55,11 +42,10 @@ namespace Ordering.Domain.Models.OrderAggregate
         /// <returns></returns>
         public static Order NewDraft()
         {
-            var order = new Order
+            return new Order
             {
                 _isDraft = true
             };
-            return order;
         }
 
         /// <summary>
@@ -75,12 +61,6 @@ namespace Ordering.Domain.Models.OrderAggregate
         public void SetBuyerId(long id) => _buyerId = id;
 
         /// <summary>
-        /// 获取总金额
-        /// </summary>
-        /// <returns></returns>
-        public decimal GetTotal() => _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
-
-        /// <summary>
         /// 新建订单事件
         /// </summary>
         /// <param name="userId"></param>
@@ -92,8 +72,54 @@ namespace Ordering.Domain.Models.OrderAggregate
         /// <param name="cardExpiration"></param>
         private void AddOrderStartedDomainEvent(long userId, string userName, int cardTypeId, string cardNumber, string cardSecurityNumber, string cardHolderName, DateTime cardExpiration)
         {
-            var orderStartedDomainEvent = new OrderStartedDomainEvent(this, userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
-            AddDomainEvent(orderStartedDomainEvent);
+            AddDomainEvent(new OrderStartedDomainEvent(this, userId, userName, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration));
+        }
+    }
+
+    /// <summary>
+    /// 订单明细
+    /// </summary>
+    public partial class Order
+    {
+        private readonly List<OrderItem> _orderItems;
+
+        /// <summary>
+        /// 订单明细
+        /// </summary>
+        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
+
+        /// <summary>
+        /// 获取总金额
+        /// </summary>
+        /// <returns></returns>
+        public decimal GetTotal() => _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
+
+        /// <summary>
+        /// 增加明细
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="productName"></param>
+        /// <param name="unitPrice"></param>
+        /// <param name="discount"></param>
+        /// <param name="pictureUrl"></param>
+        /// <param name="units"></param>
+        public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
+        {
+            var existingOrderForProduct = _orderItems.Where(o => o.ProductId == productId).SingleOrDefault();
+            if (existingOrderForProduct != null)
+            {
+                //if previous line exist modify it with higher discount  and units..
+                if (discount > existingOrderForProduct.GetCurrentDiscount())
+                    existingOrderForProduct.SetNewDiscount(discount);
+
+                existingOrderForProduct.AddUnits(units);
+            }
+            else
+            {
+                //add validated new order item
+                var orderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
+                _orderItems.Add(orderItem);
+            }
         }
     }
 
@@ -102,7 +128,36 @@ namespace Ordering.Domain.Models.OrderAggregate
     /// </summary>
     public partial class Order
     {
+        /// <summary>
+        /// 订单状态
+        /// </summary>
         private int _orderStatusId;
+
+        /// <summary>
+        /// 订单状态机
+        /// </summary>
+        private readonly StateMachine<int, Trigger> _machine;
+
+        private enum Trigger { Submitted, AwaitingValidation, StockConfirmed, Paid, Shipped, Cancelled }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        protected Order()
+        {
+            _isDraft = false;
+            _orderItems = new List<OrderItem>();
+
+            // 初始化状态机
+            _machine = new StateMachine<int, Trigger>(()=> _orderStatusId, s => SetState(s));
+
+            // 状态机流程配置
+            _machine.Configure(OrderStatus.Submitted.Id)
+                .Permit(Trigger.AwaitingValidation, OrderStatus.AwaitingValidation.Id); // 提交 -> 等待确认 
+
+            _machine.Configure(OrderStatus.AwaitingValidation.Id)
+                .Permit(Trigger.StockConfirmed, OrderStatus.StockConfirmed.Id); // 等待确认 -> 库存确认 
+        }
 
         /// <summary>
         /// 订单状态
@@ -117,7 +172,8 @@ namespace Ordering.Domain.Models.OrderAggregate
             if (_orderStatusId == OrderStatus.Submitted.Id)
             {
                 AddDomainEvent(new OrderStatusChangedToAwaitingValidationDomainEvent(Id, _orderItems));
-                _orderStatusId = OrderStatus.AwaitingValidation.Id;
+
+                _machine.Fire(Trigger.AwaitingValidation);
             }
         }
 
@@ -130,7 +186,7 @@ namespace Ordering.Domain.Models.OrderAggregate
             {
                 AddDomainEvent(new OrderStatusChangedToStockConfirmedDomainEvent(Id));
 
-                _orderStatusId = OrderStatus.StockConfirmed.Id;
+                _machine.Fire(Trigger.StockConfirmed);
                 _description = "All the items were confirmed with available stock.";
             }
         }
@@ -144,7 +200,7 @@ namespace Ordering.Domain.Models.OrderAggregate
             {
                 AddDomainEvent(new OrderStatusChangedToPaidDomainEvent(Id, OrderItems));
 
-                _orderStatusId = OrderStatus.Paid.Id;
+                _machine.Fire(Trigger.Paid);
                 _description = "The payment was performed at a simulated \"American Bank checking bank account endinf on XX35071\"";
             }
         }
@@ -157,7 +213,7 @@ namespace Ordering.Domain.Models.OrderAggregate
             if (_orderStatusId != OrderStatus.Paid.Id)
                 StatusChangeException(OrderStatus.Shipped);
 
-            _orderStatusId = OrderStatus.Shipped.Id;
+            _machine.Fire(Trigger.Shipped);
             _description = "The order was shipped.";
             AddDomainEvent(new OrderShippedDomainEvent(this));
         }
@@ -167,13 +223,10 @@ namespace Ordering.Domain.Models.OrderAggregate
         /// </summary>
         public void SetCancelledStatus()
         {
-            if (_orderStatusId == OrderStatus.Paid.Id ||
-                _orderStatusId == OrderStatus.Shipped.Id)
-            {
+            if (_orderStatusId == OrderStatus.Paid.Id || _orderStatusId == OrderStatus.Shipped.Id)
                 StatusChangeException(OrderStatus.Cancelled);
-            }
 
-            _orderStatusId = OrderStatus.Cancelled.Id;
+            _machine.Fire(Trigger.Cancelled);
             _description = $"The order was cancelled.";
             AddDomainEvent(new OrderCancelledDomainEvent(this));
         }
@@ -186,7 +239,7 @@ namespace Ordering.Domain.Models.OrderAggregate
         {
             if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
             {
-                _orderStatusId = OrderStatus.Cancelled.Id;
+                _machine.Fire(Trigger.Cancelled);
 
                 var itemsStockRejectedProductNames = OrderItems
                     .Where(c => orderStockRejectedItems.Contains(c.ProductId))
@@ -197,37 +250,15 @@ namespace Ordering.Domain.Models.OrderAggregate
             }
         }
 
-        private void StatusChangeException(OrderStatus orderStatusToChange)
+        /// <summary>
+        /// 设置订单状态
+        /// </summary>
+        /// <param name="orderStatusId"></param>
+        private void SetState(int orderStatusId)
         {
-            throw new OrderingDomainException($"Is not possible to change the order status from {OrderStatus.Name} to {orderStatusToChange.Name}.");
+            _orderStatusId = orderStatusId;
         }
-    }
 
-    /// <summary>
-    /// 订单明细
-    /// </summary>
-    public partial class Order
-    {
-        private readonly List<OrderItem> _orderItems;
-
-        public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
-        {
-            var existingOrderForProduct = _orderItems.Where(o => o.ProductId == productId).SingleOrDefault();
-            if (existingOrderForProduct != null)
-            {
-                //if previous line exist modify it with higher discount  and units..
-                if (discount > existingOrderForProduct.GetCurrentDiscount())
-                {
-                    existingOrderForProduct.SetNewDiscount(discount);
-                }
-                existingOrderForProduct.AddUnits(units);
-            }
-            else
-            {
-                //add validated new order item
-                var orderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
-                _orderItems.Add(orderItem);
-            }
-        }
+        private void StatusChangeException(OrderStatus orderStatusToChange) => throw new OrderingDomainException($"Is not possible to change the order status from {OrderStatus.Name} to {orderStatusToChange.Name}.");
     }
 }

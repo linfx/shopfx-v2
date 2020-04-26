@@ -1,4 +1,5 @@
-﻿using LinFx.Extensions.DependencyInjection;
+﻿using LinFx.Data;
+using LinFx.Data.Abstractions;
 using LinFx.Extensions.Mediator.Idempotency;
 using LinFx.Extensions.MediatR.FluentValidation;
 using MediatR;
@@ -21,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services
                 .AddHttpClient()
-                //.AddTransient(typeof(IRepository<>), typeof(Repository<>))
+                .AddTransient(typeof(IRepository<>), typeof(Repository<>))
                 //.AddTransient(typeof(IRepository<,>), typeof(Repository<,>))
                 //services.AddTransient<IAuthorizationHandler, PermissionHandler>();
                 //services.AddScoped<SlugRouteValueTransformer>();
@@ -37,12 +38,10 @@ namespace Microsoft.Extensions.DependencyInjection
             //.AddScoped<ICacheManager, PerRequestCacheManager>();
 
             services
-                .AddMediatR(typeof(CancelOrderCommand).Assembly)
-                .AddFluentValidation(typeof(CancelOrderCommand).Assembly);
-
-            services.AddTransient<IRequestManager, RequestManager>();
-            services.AddSingleton<IRequestHandler<IdentifiedCommand<CancelOrderCommand, bool>, bool>, IdentifiedCommandHandler<CancelOrderCommand, bool>>();
-
+                .AddTransient<IRequestManager, RequestManager>()
+                .AddSingleton<IRequestHandler<IdentifiedCommand<CancelOrderCommand, bool>, bool>, IdentifiedCommandHandler<CancelOrderCommand, bool>>()
+                .AddMediatR(typeof(OrderingContext).Assembly)
+                .AddFluentValidation(typeof(OrderingContext).Assembly);
 
             return services.AddDbContextPool<OrderingContext>(options =>
             {

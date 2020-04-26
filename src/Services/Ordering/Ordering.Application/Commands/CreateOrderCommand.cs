@@ -9,6 +9,7 @@ namespace Ordering.Domain.Commands
 {
     /// <summary>
     /// 创建订单
+    /// </summary>
     /// DDD and CQRS patterns comment: Note that it is recommended to implement immutable Commands
     // In this case, its immutability is achieved by having all the setters as private
     // plus only being able to update the data just once, when creating the object through its constructor.

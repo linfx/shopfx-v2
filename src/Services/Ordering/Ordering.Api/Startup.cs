@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +22,6 @@ namespace Ordering.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMediatR(GetType().Assembly)
                 .AddOrdering(Configuration)
                 .AddControllers();
 

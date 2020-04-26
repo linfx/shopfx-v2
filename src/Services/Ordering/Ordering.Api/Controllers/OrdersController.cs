@@ -29,7 +29,7 @@ namespace Ordering.Api.Controllers
             _mediator = mediator;
             _orderService = orderService;
         }
-        
+
         /// <summary>
         /// 我的订单
         /// </summary>
@@ -49,7 +49,7 @@ namespace Ordering.Api.Controllers
         /// <returns></returns>
         [HttpGet("{orderId:long}")]
         [ProducesResponseType(typeof(Order), 200)]
-        public async Task<IActionResult> GetOrder(long orderId)
+        public async Task<IActionResult> Get(long orderId)
         {
             try
             {
@@ -62,24 +62,14 @@ namespace Ordering.Api.Controllers
             }
         }
 
-        //[Route("cardTypes")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<CardType>), (int)HttpStatusCode.OK)]
-        //public async Task<IActionResult> GetCardTypes()
-        //{
-        //    var cardTypes = await _orderService.GetCardTypesAsync();
-        //    return Ok(cardTypes);
-        //}
-
         /// <summary>
         /// 订单取消
         /// </summary>
         /// <param name="command"></param>
         /// <param name="requestId"></param>
         /// <returns></returns>
-        [HttpPut]
         [HttpPut("cancel")]
-        public async Task<IActionResult> CancelOrder(CancelOrderCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Cancel(CancelOrderCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
             bool commandResult = false;
             if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
@@ -96,9 +86,8 @@ namespace Ordering.Api.Controllers
         /// <param name = "command" ></param >
         /// <param name="requestId"></param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("ship")]
-        public async Task<IActionResult> ShipOrder(ShipOrderCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        [HttpPut("ship")]
+        public async Task<IActionResult> Ship(ShipOrderCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
             bool commandResult = false;
             if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
@@ -114,12 +103,20 @@ namespace Ordering.Api.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("draft")]
+        [HttpPost("draft")]
         public async Task<IActionResult> GetOrderDraftFromBasketData(CreateOrderDraftCommand command)
         {
             var draft = await _mediator.Send(command);
             return Ok(draft);
         }
+
+        //[Route("cardTypes")]
+        //[HttpGet]
+        //[ProducesResponseType(typeof(IEnumerable<CardType>), (int)HttpStatusCode.OK)]
+        //public async Task<IActionResult> GetCardTypes()
+        //{
+        //    var cardTypes = await _orderService.GetCardTypesAsync();
+        //    return Ok(cardTypes);
+        //}
     }
 }

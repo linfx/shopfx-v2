@@ -1,4 +1,5 @@
 ﻿using LinFx.Data;
+using LinFx.Data.Abstractions;
 using LinFx.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -70,6 +71,13 @@ namespace Ordering.Data
         public IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> predicate)
         {
             return DbSet.Where(predicate);
+        }
+    }
+
+    public class Repository<TEntity> : Repository<TEntity, long> where TEntity : class, IEntity<long>
+    {
+        public Repository(OrderingContext context) : base(context)
+        {
         }
     }
 }
