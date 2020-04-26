@@ -2,6 +2,9 @@
 
 namespace Ordering.Domain.Models.OrderAggregate
 {
+    /// <summary>
+    /// 订单明细
+    /// </summary>
     public class OrderItem : Entity<long>
     {
         private readonly string _productName;
@@ -29,14 +32,34 @@ namespace Ordering.Domain.Models.OrderAggregate
             _pictureUrl = pictureUrl;
         }
 
+        /// <summary>
+        /// 获取图片Uri
+        /// </summary>
+        /// <returns></returns>
         public string GetPictureUri() => _pictureUrl;
 
+        /// <summary>
+        /// 获取当前折扣
+        /// </summary>
+        /// <returns></returns>
         public decimal GetCurrentDiscount() => _discount;
 
+        /// <summary>
+        /// 获取数量
+        /// </summary>
+        /// <returns></returns>
         public int GetUnits() => _units;
 
+        /// <summary>
+        /// 获取单价
+        /// </summary>
+        /// <returns></returns>
         public decimal GetUnitPrice() => _unitPrice;
 
+        /// <summary>
+        /// 获取商品名称
+        /// </summary>
+        /// <returns></returns>
         public string GetOrderItemProductName() => _productName;
 
         /// <summary>

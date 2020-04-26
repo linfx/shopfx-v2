@@ -44,6 +44,10 @@ namespace Ordering.Domain.Models.OrderAggregate
 
         public OrderStatus(int id, string name) : base(id, name) { }
 
+        /// <summary>
+        /// 订单状举列表
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<OrderStatus> List() => new[] { Submitted, AwaitingValidation, StockConfirmed, Paid, Shipped, Cancelled };
 
         public static OrderStatus FromName(string name)

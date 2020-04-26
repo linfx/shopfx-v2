@@ -138,10 +138,13 @@ namespace Ordering.Domain.Models.OrderAggregate
         /// </summary>
         private readonly StateMachine<int, Trigger> _machine;
 
+        /// <summary>
+        /// 订单操作
+        /// </summary>
         private enum Trigger { Submitted, AwaitingValidation, StockConfirmed, Paid, Shipped, Cancelled }
 
         /// <summary>
-        /// 构造函数
+        /// 订单
         /// </summary>
         protected Order()
         {

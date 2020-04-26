@@ -45,15 +45,15 @@ namespace Ordering.Api.Controllers
         /// <summary>
         /// 获取订单
         /// </summary>
-        /// <param name="orderId"></param>
+        /// <param name="id">订单Id</param>
         /// <returns></returns>
-        [HttpGet("{orderId:long}")]
+        [HttpGet("{id:long}")]
         [ProducesResponseType(typeof(Order), 200)]
-        public async Task<IActionResult> Get(long orderId)
+        public async Task<IActionResult> Get(long id)
         {
             try
             {
-                var order = await _orderService.GetOrderAsync(orderId);
+                var order = await _orderService.GetOrderAsync(id);
                 return Ok(order);
             }
             catch (KeyNotFoundException)
