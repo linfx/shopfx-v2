@@ -15,6 +15,11 @@ namespace Basket.Api.Controllers
     {
         private readonly IBasketService _basketService;
 
+        public BasketController(IBasketService basketService)
+        {
+            _basketService = basketService;
+        }
+
         /// <summary>
         /// 获取购物车
         /// </summary>

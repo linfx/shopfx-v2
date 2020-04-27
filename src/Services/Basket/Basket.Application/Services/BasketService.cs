@@ -1,11 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Basket.Application.Models;
+using LinFx;
 using LinFx.Utils;
-using Basket.Application.Models;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Basket.Api.Services
 {
+    [Service]
     public class BasketService : IBasketService
     {
         private readonly ILogger _logger;
@@ -47,7 +49,7 @@ namespace Basket.Api.Services
             //    }
             //});
 
-            await _cache.SetStringAsync(basket.BuyerId, basket.ToJson());
+            await _cache.SetStringAsync(basket.BuyerId, basket.ToJsonString());
 
             _logger.LogInformation("Basket item persisted succesfully.");
 

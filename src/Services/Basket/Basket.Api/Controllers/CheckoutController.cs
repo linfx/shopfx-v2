@@ -12,13 +12,15 @@ namespace Basket.Api.Controllers
     /// 结算Api
     /// </summary>
     [Authorize]
+    [ApiController]
+    [Route("api/checkout")]
     public class CheckoutController : ControllerBase
     {
-        private readonly IBasketService _repository;
+        private readonly IBasketService _basketService;
 
-        public CheckoutController(IBasketService repository)
+        public CheckoutController(IBasketService basketService)
         {
-            _repository = repository;
+            _basketService = basketService;
         }
 
         /// <summary>
@@ -28,12 +30,11 @@ namespace Basket.Api.Controllers
         /// <param name="requestId">请求Id</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("checkout")]
         public async Task<IActionResult> Checkout(BasketCheckout basketCheckout, [FromHeader(Name = "x-requestid")] string requestId)
         {
             basketCheckout.RequestId = (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty) ? guid : basketCheckout.RequestId;
 
-            var basket = await _repository.GetAsync(User.Identity.Name);
+            var basket = await _basketService.GetAsync(User.Identity.Name);
             if (basket == null)
                 return BadRequest();
 
