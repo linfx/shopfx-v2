@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 namespace Basket.Api.Services
 {
     [Service]
-    public class BasketService : IBasketService
+    public class BasketRepository : IBasketRepository
     {
         private readonly ILogger _logger;
         private readonly IDistributedCache _cache;
 
-        public BasketService(
+        public BasketRepository(
             ILoggerFactory loggerFactory,
             IDistributedCache cache)
         {
-            _logger = loggerFactory.CreateLogger<BasketService>();
+            _logger = loggerFactory.CreateLogger<BasketRepository>();
             _cache = cache;
         }
 

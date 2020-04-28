@@ -37,8 +37,8 @@ namespace Basket.Application
             services
                 .AddTransient<IRequestManager, RequestManager>()
                 //.AddSingleton<IRequestHandler<IdentifiedCommand<CancelOrderCommand, bool>, bool>, IdentifiedCommandHandler<CancelOrderCommand, bool>>()
-                .AddMediatR(typeof(IBasketService).Assembly)
-                .AddFluentValidation(typeof(IBasketService).Assembly);
+                .AddMediatR(typeof(IBasketRepository).Assembly)
+                .AddFluentValidation(typeof(IBasketRepository).Assembly);
 
             return services;
         }

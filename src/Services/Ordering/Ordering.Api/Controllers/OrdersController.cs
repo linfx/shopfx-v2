@@ -69,12 +69,12 @@ namespace Ordering.Api.Controllers
         /// <param name="requestId"></param>
         /// <returns></returns>
         [HttpPut("cancel")]
-        public async Task<IActionResult> Cancel(CancelOrderCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Cancel(OrderCancelCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
             bool commandResult = false;
             if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
             {
-                var requestCancelOrder = new IdentifiedCommand<CancelOrderCommand, bool>(command, guid);
+                var requestCancelOrder = new IdentifiedCommand<OrderCancelCommand, bool>(command, guid);
                 commandResult = await _mediator.Send(requestCancelOrder);
             }
             return commandResult ? Ok() : (IActionResult)BadRequest();
@@ -87,12 +87,12 @@ namespace Ordering.Api.Controllers
         /// <param name="requestId"></param>
         /// <returns></returns>
         [HttpPut("ship")]
-        public async Task<IActionResult> Ship(ShipOrderCommand command, [FromHeader(Name = "x-requestid")] string requestId)
+        public async Task<IActionResult> Ship(OrderShipCommand command, [FromHeader(Name = "x-requestid")] string requestId)
         {
             bool commandResult = false;
             if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
             {
-                var requestCancelOrder = new IdentifiedCommand<ShipOrderCommand, bool>(command, guid);
+                var requestCancelOrder = new IdentifiedCommand<OrderShipCommand, bool>(command, guid);
                 commandResult = await _mediator.Send(requestCancelOrder);
             }
             return commandResult ? Ok() : (IActionResult)BadRequest();
@@ -104,7 +104,7 @@ namespace Ordering.Api.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost("draft")]
-        public async Task<IActionResult> GetOrderDraftFromBasketData(CreateOrderDraftCommand command)
+        public async Task<IActionResult> GetOrderDraftFromBasketData(OrderCreateDraftCommand command)
         {
             var draft = await _mediator.Send(command);
             return Ok(draft);

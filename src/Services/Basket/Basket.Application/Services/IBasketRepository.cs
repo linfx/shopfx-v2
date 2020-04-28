@@ -6,7 +6,7 @@ namespace Basket.Api.Services
     /// <summary>
     /// 购物车服务
     /// </summary>
-    public interface IBasketService
+    public interface IBasketRepository
     {
         /// <summary>
         /// 获取客户购物车

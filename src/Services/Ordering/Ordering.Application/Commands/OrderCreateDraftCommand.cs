@@ -8,7 +8,7 @@ namespace Ordering.Domain.Commands
     /// <summary>
     /// 创建订单预览命令
     /// </summary>
-    public class CreateOrderDraftCommand : IRequest<OrderDraft>
+    public class OrderCreateDraftCommand : IRequest<OrderDraft>
     {
         /// <summary>
         /// 客户Id

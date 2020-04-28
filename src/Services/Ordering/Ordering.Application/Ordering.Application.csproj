@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Handlers\OrderStartedEvent\SendEmailToCustomerWhenOrderStartedDomainEventHandler.cs" />
     <Compile Remove="Validations\CreateOrderCommandValidator.cs" />
     <Compile Remove="Validations\IdentifiedCommandValidator.cs" />
     <Compile Remove="Validations\ShipOrderCommandValidator.cs" />
@@ -23,8 +22,8 @@
     <Compile Include="Events\GracePeriodConfirmedIntegrationEvent.cs" />
     <Compile Include="Events\OrderPaymentIntegrationEvent.cs" />
     <Compile Include="Events\OrderStarted.cs" />
-    <Compile Include="Events\OrderStartedIntegrationEvent.cs" />
     <Compile Include="Events\OrderStatusChangedIntegrationEvent.cs" />
+    <Compile Include="Events\OrderStatusChangedToCancelledEvent.cs" />
     <Compile Include="Events\OrderStockConfirmedIntegrationEvent.cs" />
     <Compile Include="Events\OrderStockRejectedIntegrationEvent.cs" />
     <Compile Include="Events\UserCheckoutAccepted.cs" />

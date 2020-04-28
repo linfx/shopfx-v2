@@ -10,19 +10,19 @@ namespace Ordering.Domain.Commands
     /// <summary>
     /// 创建订单命令处理
     /// </summary>
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, bool>
+    public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, bool>
     {
         private readonly IRepository<Order> _orderRepository;
         //private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
 
-        public CreateOrderCommandHandler(
+        public OrderCreateCommandHandler(
             IRepository<Order> orderRepository)
         {
             _orderRepository = orderRepository;
             //_orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
         }
 
-        public async Task<bool> Handle(CreateOrderCommand message, CancellationToken cancellationToken)
+        public async Task<bool> Handle(OrderCreateCommand message, CancellationToken cancellationToken)
         {
             // Add Integration event to clean the basket
             //var orderStartedIntegrationEvent = new OrderStartedIntegrationEvent(message.UserId);
@@ -47,7 +47,7 @@ namespace Ordering.Domain.Commands
     }
 
     // Use for Idempotency in Command process
-    public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<CreateOrderCommand, bool>
+    public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<OrderCreateCommand, bool>
     {
         public CreateOrderIdentifiedCommandHandler(IMediator mediator, IRequestManager requestManager) : base(mediator, requestManager) { }
 

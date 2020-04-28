@@ -4,12 +4,12 @@ using System.Runtime.Serialization;
 namespace Ordering.Domain.Commands
 {
     /// <summary>
-    /// 订单取消
+    /// 订单取消命令
     /// </summary>
-    public class CancelOrderCommand : IRequest<bool>
+    public class OrderCancelCommand : IRequest<bool>
     {
         /// <summary>
-        /// 单号
+        /// 订单No
         /// </summary>
         [DataMember]
         public long OrderNumber { get; set; }

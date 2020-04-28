@@ -1,17 +1,26 @@
 ﻿namespace Basket.Application.Events
 {
-    // Integration Events notes: 
-    // An Event is “something that has happened in the past”, therefore its name has to be   
-    // An Integration Event is an event that can cause side effects to other microsrvices, Bounded-Contexts or external systems.
+    /// <summary>
+    /// 商品价格调整
+    /// </summary>
     public class ProductPriceChanged
     {
+        /// <summary>
+        /// 商品Id
+        /// </summary>
         public long ProductId { get; private set; }
 
+        /// <summary>
+        /// 新价格
+        /// </summary>
         public decimal NewPrice { get; private set; }
 
+        /// <summary>
+        /// 旧价格
+        /// </summary>
         public decimal OldPrice { get; private set; }
 
-        public ProductPriceChanged(int productId, decimal newPrice, decimal oldPrice)
+        public ProductPriceChanged(long productId, decimal newPrice, decimal oldPrice)
         {
             ProductId = productId;
             NewPrice = newPrice;

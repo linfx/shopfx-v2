@@ -1,6 +1,7 @@
 ﻿using Basket.Api.Services;
 using Basket.Application.Events;
 using Basket.Application.Models;
+using LinFx.Extensions.EventBus;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,10 +17,14 @@ namespace Basket.Api.Controllers
     [Route("api/checkout")]
     public class CheckoutController : ControllerBase
     {
-        private readonly IBasketService _basketService;
+        private readonly IEventBus _eventBus;
+        private readonly IBasketRepository _basketService;
 
-        public CheckoutController(IBasketService basketService)
+        public CheckoutController(
+            IEventBus eventBus,
+            IBasketRepository basketService)
         {
+            _eventBus = eventBus;
             _basketService = basketService;
         }
 

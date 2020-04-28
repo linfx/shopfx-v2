@@ -3,7 +3,7 @@ using Ordering.Domain.Commands;
 
 namespace Ordering.Domain.Validations
 {
-    public class CancelOrderCommandValidator : AbstractValidator<CancelOrderCommand>
+    public class CancelOrderCommandValidator : AbstractValidator<OrderCancelCommand>
     {
         public CancelOrderCommandValidator()
         {

@@ -38,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services
                 .AddTransient<IRequestManager, RequestManager>()
-                .AddSingleton<IRequestHandler<IdentifiedCommand<CancelOrderCommand, bool>, bool>, IdentifiedCommandHandler<CancelOrderCommand, bool>>()
+                .AddSingleton<IRequestHandler<IdentifiedCommand<OrderCancelCommand, bool>, bool>, IdentifiedCommandHandler<OrderCancelCommand, bool>>()
                 .AddMediatR(typeof(OrderingContext).Assembly)
                 .AddFluentValidation(typeof(OrderingContext).Assembly);
 

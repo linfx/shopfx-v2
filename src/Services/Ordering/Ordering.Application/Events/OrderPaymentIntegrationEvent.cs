@@ -1,18 +1,18 @@
-﻿namespace Ordering.API.Application.IntegrationEvents.Events
-{
-    using LinFx.Extensions.EventBus;
+﻿using LinFx.Extensions.EventBus;
 
+namespace Ordering.API.Application.IntegrationEvents.Events
+{
     public class OrderPaymentSuccededIntegrationEvent : IntegrationEvent
     {
-        public int OrderId { get; }
+        public long OrderId { get; }
 
-        public OrderPaymentSuccededIntegrationEvent(int orderId) => OrderId = orderId;
+        public OrderPaymentSuccededIntegrationEvent(long orderId) => OrderId = orderId;
     }
 
     public class OrderPaymentFailedIntegrationEvent : IntegrationEvent
     {
-        public int OrderId { get; }
+        public long OrderId { get; }
 
-        public OrderPaymentFailedIntegrationEvent(int orderId) => OrderId = orderId;
+        public OrderPaymentFailedIntegrationEvent(long orderId) => OrderId = orderId;
     }
 }

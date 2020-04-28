@@ -9,31 +9,31 @@ using System.Threading.Tasks;
 namespace Ordering.Application.Handlers
 {
     /// <summary>
-    /// 取消订单命令处理器
+    /// 订单发货处理
     /// </summary>
-    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, bool>
+    public class OrderShipCommandHandler : IRequestHandler<OrderShipCommand, bool>
     {
         private readonly IRepository<Order> _orderRepository;
 
-        public CancelOrderCommandHandler(IRepository<Order> orderRepository)
+        public OrderShipCommandHandler(IRepository<Order> orderRepository)
         {
             _orderRepository = orderRepository;
         }
 
         /// <summary>
         /// Handler which processes the command when
-        /// customer executes cancel order from app
+        /// administrator executes ship order from app
         /// </summary>
         /// <param name="command"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> Handle(CancelOrderCommand command, CancellationToken cancellationToken)
+        public async Task<bool> Handle(OrderShipCommand command, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.FirstOrDefaultAsync(command.OrderNumber);
-            if (order == null)
+            var orderToUpdate = await _orderRepository.FirstOrDefaultAsync(command.OrderNumber);
+            if (orderToUpdate == null)
                 return false;
 
-            order.SetCancelledStatus();
+            orderToUpdate.SetShippedStatus();
             await _orderRepository.SaveChangesAsync();
             return true;
         }

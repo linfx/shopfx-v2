@@ -20,7 +20,7 @@ namespace Ordering.Domain.Commands
     // https://msdn.microsoft.com/en-us/library/bb383979.aspx
     /// </summary>
     [DataContract]
-    public partial class CreateOrderCommand : IRequest<bool>
+    public partial class OrderCreateCommand : IRequest<bool>
     {
         [DataMember]
         public long UserId { get; private set; }
@@ -64,7 +64,7 @@ namespace Ordering.Domain.Commands
         [DataMember]
         public IEnumerable<OrderItem> OrderItems { get; } = new List<OrderItem>();
 
-        public CreateOrderCommand(List<BasketItem> basketItems, long userId, string userName, string city, string street, string state, string country, string zipcode,
+        public OrderCreateCommand(List<BasketItem> basketItems, long userId, string userName, string city, string street, string state, string country, string zipcode,
             string cardNumber, string cardHolderName, DateTime cardExpiration,
             string cardSecurityNumber, int cardTypeId)
         {

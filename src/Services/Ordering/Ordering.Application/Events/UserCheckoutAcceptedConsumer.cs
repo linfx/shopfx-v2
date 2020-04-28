@@ -31,14 +31,14 @@ namespace Ordering.Application.Events
             if (eventMsg.RequestId != Guid.Empty)
             {
                 // 创建订单指令
-                var createOrderCommand = new CreateOrderCommand(eventMsg.Basket.Items, eventMsg.UserId, eventMsg.UserName,
+                var createOrderCommand = new OrderCreateCommand(eventMsg.Basket.Items, eventMsg.UserId, eventMsg.UserName,
                     eventMsg.City, eventMsg.Street,
                     eventMsg.State, eventMsg.Country, eventMsg.ZipCode,
                     eventMsg.CardNumber, eventMsg.CardHolderName, eventMsg.CardExpiration,
                     eventMsg.CardSecurityNumber, eventMsg.CardTypeId);
 
                 // 请求创建订单
-                var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, eventMsg.RequestId);
+                var requestCreateOrder = new IdentifiedCommand<OrderCreateCommand, bool>(createOrderCommand, eventMsg.RequestId);
                 result = await _mediator.Send(requestCreateOrder);
             }
 

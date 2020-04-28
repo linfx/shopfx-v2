@@ -11,9 +11,9 @@ namespace Ordering.Application.Handlers
     /// <summary>
     /// 订单预览
     /// </summary>
-    public class CreateOrderDraftCommandHandler : IRequestHandler<CreateOrderDraftCommand, OrderDraft>
+    public class OrderCreateDraftCommandHandler : IRequestHandler<OrderCreateDraftCommand, OrderDraft>
     {
-        Task<OrderDraft> IRequestHandler<CreateOrderDraftCommand, OrderDraft>.Handle(CreateOrderDraftCommand request, CancellationToken cancellationToken)
+        Task<OrderDraft> IRequestHandler<OrderCreateDraftCommand, OrderDraft>.Handle(OrderCreateDraftCommand request, CancellationToken cancellationToken)
         {
             var order = Domain.Models.OrderAggregate.Order.NewDraft();
             var orderItems = request.Items.Select(p => p.MapTo<OrderItem>());
