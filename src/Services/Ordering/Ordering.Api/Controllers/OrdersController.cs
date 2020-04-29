@@ -1,6 +1,5 @@
 ﻿using LinFx.Extensions.Mediator.Idempotency;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Services;
 using Ordering.Application.ViewModels;
@@ -14,7 +13,7 @@ namespace Ordering.Api.Controllers
     /// <summary>
     /// 订单Api
     /// </summary>
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/orders")]
     public class OrdersController : ControllerBase
@@ -74,7 +73,7 @@ namespace Ordering.Api.Controllers
             bool commandResult = false;
             if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
             {
-                var requestCancelOrder = new IdentifiedCommand<OrderCancelCommand, bool>(command, guid);
+                var requestCancelOrder = new IdentifiedCommand<OrderCancelCommand, bool>(guid, command);
                 commandResult = await _mediator.Send(requestCancelOrder);
             }
             return commandResult ? Ok() : (IActionResult)BadRequest();
@@ -92,7 +91,7 @@ namespace Ordering.Api.Controllers
             bool commandResult = false;
             if (Guid.TryParse(requestId, out Guid guid) && guid != Guid.Empty)
             {
-                var requestCancelOrder = new IdentifiedCommand<OrderShipCommand, bool>(command, guid);
+                var requestCancelOrder = new IdentifiedCommand<OrderShipCommand, bool>(guid, command);
                 commandResult = await _mediator.Send(requestCancelOrder);
             }
             return commandResult ? Ok() : (IActionResult)BadRequest();
@@ -109,14 +108,5 @@ namespace Ordering.Api.Controllers
             var draft = await _mediator.Send(command);
             return Ok(draft);
         }
-
-        //[Route("cardTypes")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<CardType>), (int)HttpStatusCode.OK)]
-        //public async Task<IActionResult> GetCardTypes()
-        //{
-        //    var cardTypes = await _orderService.GetCardTypesAsync();
-        //    return Ok(cardTypes);
-        //}
     }
 }

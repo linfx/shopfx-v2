@@ -4,6 +4,7 @@ using LinFx.Extensions.MediatR.FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Ordering.Application.Services;
 using Ordering.Data;
 using Ordering.Domain.Commands;
 
@@ -36,17 +37,20 @@ namespace Microsoft.Extensions.DependencyInjection
             //})
             //.AddScoped<ICacheManager, PerRequestCacheManager>();
 
+            //services.AddDbContextPool<OrderingContext>(options =>
+            //{
+            //    options.EnableSensitiveDataLogging();
+            //    options.UseMySql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Ordering.Api"));
+            //});
+
             services
+                .AddTransient<IOrderService, OrderService>()
                 .AddTransient<IRequestManager, RequestManager>()
                 .AddSingleton<IRequestHandler<IdentifiedCommand<OrderCancelCommand, bool>, bool>, IdentifiedCommandHandler<OrderCancelCommand, bool>>()
                 .AddMediatR(typeof(OrderingContext).Assembly)
                 .AddFluentValidation(typeof(OrderingContext).Assembly);
 
-            return services.AddDbContextPool<OrderingContext>(options =>
-            {
-                options.EnableSensitiveDataLogging();
-                options.UseMySql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Ordering.Api"));
-            });
+            return services;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Ordering.Application.Events
                     eventMsg.CardSecurityNumber, eventMsg.CardTypeId);
 
                 // 请求创建订单
-                var requestCreateOrder = new IdentifiedCommand<OrderCreateCommand, bool>(createOrderCommand, eventMsg.RequestId);
+                var requestCreateOrder = new IdentifiedCommand<OrderCreateCommand, bool>(eventMsg.RequestId, createOrderCommand);
                 result = await _mediator.Send(requestCreateOrder);
             }
 

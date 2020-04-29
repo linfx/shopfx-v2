@@ -3,6 +3,7 @@ using Ordering.Application.Models;
 using Ordering.Application.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Ordering.Domain.Commands
@@ -10,14 +11,6 @@ namespace Ordering.Domain.Commands
     /// <summary>
     /// 创建订单命令
     /// </summary>
-    /// DDD and CQRS patterns comment: Note that it is recommended to implement immutable Commands
-    // In this case, its immutability is achieved by having all the setters as private
-    // plus only being able to update the data just once, when creating the object through its constructor.
-    // References on Immutable Commands:  
-    // http://cqrs.nu/Faq
-    // https://docs.spine3.org/motivation/immutability.html 
-    // http://blog.gauffin.org/2012/06/griffin-container-introducing-command-support/
-    // https://msdn.microsoft.com/en-us/library/bb383979.aspx
     /// </summary>
     [DataContract]
     public partial class OrderCreateCommand : IRequest<bool>
@@ -81,7 +74,7 @@ namespace Ordering.Domain.Commands
             CardSecurityNumber = cardSecurityNumber;
             CardTypeId = cardTypeId;
             CardExpiration = cardExpiration;
-            //OrderItems = basketItems.ToOrderItemsDTO().ToList();
+            OrderItems = basketItems.MapTo<OrderItem[]>().ToList();
         }
     }
 }

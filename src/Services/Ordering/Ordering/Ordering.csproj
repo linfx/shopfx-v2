@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LinFx" Version="4.6.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\LinFx\src\LinFx\LinFx.csproj" />
   </ItemGroup>
 

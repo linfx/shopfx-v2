@@ -28,6 +28,5 @@ namespace Ordering.Application.ViewModels
     //            Total = order.GetTotal()
     //        };
     //    }
-
     //}
 }
