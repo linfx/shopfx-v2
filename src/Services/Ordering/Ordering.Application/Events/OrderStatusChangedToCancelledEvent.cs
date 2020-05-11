@@ -2,7 +2,7 @@
 {
     using LinFx.Extensions.EventBus;
 
-    public class OrderStatusChangedToCancelledEvent : IntegrationEvent
+    public class OrderStatusChangedToCancelledEvent : Event
     {
         public long OrderId { get; }
         public string OrderStatus { get; }

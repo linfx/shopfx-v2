@@ -8,10 +8,6 @@ using System.Runtime.Serialization;
 
 namespace Ordering.Domain.Commands
 {
-    /// <summary>
-    /// 创建订单命令
-    /// </summary>
-    /// </summary>
     [DataContract]
     public partial class OrderCreateCommand : IRequest<bool>
     {

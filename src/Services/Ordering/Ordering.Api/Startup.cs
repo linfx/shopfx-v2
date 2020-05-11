@@ -40,6 +40,8 @@ namespace Ordering.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseModules();
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();

@@ -17,10 +17,21 @@ namespace Ordering.API.Application.DomainEventHandlers.OrderCancelled
     /// </summary>
     public class OrderCancelledDomainEventHandler : INotificationHandler<OrderCancelledDomainEvent>
     {
-        private readonly IRepository<Order> _orderRepository;
-        private readonly IRepository<Buyer> _buyerRepository;
         private readonly ILoggerFactory _logger;
         private readonly IMqService _eventBus;
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<Buyer> _buyerRepository;
+
+        public OrderCancelledDomainEventHandler(ILoggerFactory logger,
+            IMqService eventBus,
+            IRepository<Order> orderRepository,
+            IRepository<Buyer> buyerRepository)
+        {
+            _logger = logger;
+            _eventBus = eventBus;
+            _orderRepository = orderRepository;
+            _buyerRepository = buyerRepository;
+        }
 
         public async Task Handle(OrderCancelledDomainEvent orderCancelledDomainEvent, CancellationToken cancellationToken)
         {

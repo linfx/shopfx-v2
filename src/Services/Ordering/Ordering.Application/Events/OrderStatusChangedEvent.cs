@@ -1,17 +1,19 @@
-﻿namespace Ordering.API.Application.IntegrationEvents.Events
-{
-    using System.Collections.Generic;
-    using LinFx.Extensions.EventBus;
+﻿using System.Collections.Generic;
+using LinFx.Extensions.EventBus;
 
-    public class OrderStatusChangedToAwaitingValidationIntegrationEvent : IntegrationEvent
+namespace Ordering.Application.Events
+{
+    public class OrderStatusChangedToAwaitingValidationEvent : Event
     {
-        public int OrderId { get; }
+        public long OrderId { get; }
+
         public string OrderStatus { get; }
+
         public string BuyerName { get; }
+
         public IEnumerable<OrderStockItem> OrderStockItems { get; }
 
-        public OrderStatusChangedToAwaitingValidationIntegrationEvent(int orderId, string orderStatus, string buyerName,
-            IEnumerable<OrderStockItem> orderStockItems)
+        public OrderStatusChangedToAwaitingValidationEvent(long orderId, string orderStatus, string buyerName, IEnumerable<OrderStockItem> orderStockItems)
         {
             OrderId = orderId;
             OrderStockItems = orderStockItems;
@@ -20,14 +22,17 @@
         }
     }
 
-    public class OrderStatusChangedToPaidIntegrationEvent : IntegrationEvent
+    public class OrderStatusChangedToPaidEvent : Event
     {
-        public int OrderId { get; }
+        public long OrderId { get; }
+
         public string OrderStatus { get; }
+
         public string BuyerName { get; }
+
         public IEnumerable<OrderStockItem> OrderStockItems { get; }
 
-        public OrderStatusChangedToPaidIntegrationEvent(int orderId,
+        public OrderStatusChangedToPaidEvent(long orderId,
             string orderStatus,
             string buyerName,
             IEnumerable<OrderStockItem> orderStockItems)
@@ -39,27 +44,15 @@
         }
     }
 
-    public class OrderStatusChangedToShippedIntegrationEvent : IntegrationEvent
-    {
-        public int OrderId { get; }
-        public string OrderStatus { get; }
-        public string BuyerName { get; }
-
-        public OrderStatusChangedToShippedIntegrationEvent(int orderId, string orderStatus, string buyerName)
-        {
-            OrderId = orderId;
-            OrderStatus = orderStatus;
-            BuyerName = buyerName;
-        }
-    }
-
-    public class OrderStatusChangedToStockConfirmedIntegrationEvent : IntegrationEvent
+    public class OrderStatusChangedToShippedEvent : Event
     {
         public long OrderId { get; }
+
         public string OrderStatus { get; }
+
         public string BuyerName { get; }
 
-        public OrderStatusChangedToStockConfirmedIntegrationEvent(long orderId, string orderStatus, string buyerName)
+        public OrderStatusChangedToShippedEvent(long orderId, string orderStatus, string buyerName)
         {
             OrderId = orderId;
             OrderStatus = orderStatus;
@@ -67,13 +60,31 @@
         }
     }
 
-    public class OrderStatusChangedToSubmittedIntegrationEvent : IntegrationEvent
+    public class OrderStatusChangedToStockConfirmedEvent : Event
     {
-        public int OrderId { get; }
+        public long OrderId { get; }
+
         public string OrderStatus { get; }
+
         public string BuyerName { get; }
 
-        public OrderStatusChangedToSubmittedIntegrationEvent(int orderId, string orderStatus, string buyerName)
+        public OrderStatusChangedToStockConfirmedEvent(long orderId, string orderStatus, string buyerName)
+        {
+            OrderId = orderId;
+            OrderStatus = orderStatus;
+            BuyerName = buyerName;
+        }
+    }
+
+    public class OrderStatusChangedToSubmittedEvent : Event
+    {
+        public long OrderId { get; }
+
+        public string OrderStatus { get; }
+
+        public string BuyerName { get; }
+
+        public OrderStatusChangedToSubmittedEvent(long orderId, string orderStatus, string buyerName)
         {
             OrderId = orderId;
             OrderStatus = orderStatus;
@@ -83,10 +94,11 @@
 
     public class OrderStockItem
     {
-        public int ProductId { get; }
+        public long ProductId { get; }
+
         public int Units { get; }
 
-        public OrderStockItem(int productId, int units)
+        public OrderStockItem(long productId, int units)
         {
             ProductId = productId;
             Units = units;

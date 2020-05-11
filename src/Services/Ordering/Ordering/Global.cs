@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
-namespace Ordering.Infrastructure
+namespace Ordering
 {
     /// <summary>
     /// 全局配置

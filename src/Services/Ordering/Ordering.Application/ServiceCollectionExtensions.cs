@@ -20,6 +20,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddOrdering(this IServiceCollection services, IConfiguration configuration)
         {
+            //Global.Modules.Add(new ModuleInfo
+            //{
+            //    Assembly = Assembly.Load(new AssemblyName("Ordering.Domain"))
+            //});
+
             services
                 .AddHttpClient()
                 .AddTransient(typeof(IRepository<>), typeof(Repository<>))
@@ -37,11 +42,11 @@ namespace Microsoft.Extensions.DependencyInjection
             //})
             //.AddScoped<ICacheManager, PerRequestCacheManager>();
 
-            //services.AddDbContextPool<OrderingContext>(options =>
-            //{
-            //    options.EnableSensitiveDataLogging();
-            //    options.UseMySql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Ordering.Api"));
-            //});
+            services.AddDbContextPool<OrderingContext>(options =>
+            {
+                options.EnableSensitiveDataLogging();
+                options.UseMySql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Ordering.Api"));
+            });
 
             services
                 .AddTransient<IOrderService, OrderService>()

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <NoWarn>1701;1702;1591</NoWarn>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
@@ -14,26 +14,18 @@
 
   <ItemGroup>
     <Compile Remove="Validations\IdentifiedCommandValidator.cs" />
-    <Compile Remove="Validations\ShipOrderCommandValidator.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Events\GracePeriodConfirmedIntegrationEvent.cs" />
-    <Compile Include="Events\OrderPaymentIntegrationEvent.cs" />
+    <Compile Include="Events\GracePeriodConfirmedEvent.cs" />
+    <Compile Include="Events\OrderPaymentEvent.cs" />
     <Compile Include="Events\OrderStarted.cs" />
-    <Compile Include="Events\OrderStatusChangedIntegrationEvent.cs" />
+    <Compile Include="Events\OrderStatusChangedEvent.cs" />
     <Compile Include="Events\OrderStatusChangedToCancelledEvent.cs" />
-    <Compile Include="Events\OrderStockConfirmedIntegrationEvent.cs" />
-    <Compile Include="Events\OrderStockRejectedIntegrationEvent.cs" />
+    <Compile Include="Events\OrderStockConfirmedEvent.cs" />
+    <Compile Include="Events\OrderStockRejectedEvent.cs" />
     <Compile Include="Events\UserCheckoutAccepted.cs" />
     <Compile Include="Events\UserCheckoutAcceptedConsumer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

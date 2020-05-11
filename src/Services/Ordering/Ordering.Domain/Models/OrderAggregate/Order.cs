@@ -157,7 +157,7 @@ namespace Ordering.Domain.Models.OrderAggregate
                 .Permit(Trigger.AwaitingValidation, OrderStatus.AwaitingValidation.Id); // 提交 -> 等待确认 
 
             _machine.Configure(OrderStatus.AwaitingValidation.Id)
-                .Permit(Trigger.StockConfirmed, OrderStatus.StockConfirmed.Id); // 等待确认 -> 库存确认 
+                .Permit(Trigger.StockConfirmed, OrderStatus.StockConfirmed.Id);        // 等待确认 -> 库存确认 
         }
 
         /// <summary>
@@ -173,7 +173,6 @@ namespace Ordering.Domain.Models.OrderAggregate
             if (_orderStatusId == OrderStatus.Submitted.Id)
             {
                 AddDomainEvent(new OrderStatusChangedToAwaitingValidationDomainEvent(Id, _orderItems));
-
                 _machine.Fire(Trigger.AwaitingValidation);
             }
         }
@@ -186,7 +185,6 @@ namespace Ordering.Domain.Models.OrderAggregate
             if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
             {
                 AddDomainEvent(new OrderStatusChangedToStockConfirmedDomainEvent(Id));
-
                 _machine.Fire(Trigger.StockConfirmed);
                 _description = "All the items were confirmed with available stock.";
             }
@@ -200,7 +198,6 @@ namespace Ordering.Domain.Models.OrderAggregate
             if (_orderStatusId == OrderStatus.StockConfirmed.Id)
             {
                 AddDomainEvent(new OrderStatusChangedToPaidDomainEvent(Id, OrderItems));
-
                 _machine.Fire(Trigger.Paid);
                 _description = "The payment was performed at a simulated \"American Bank checking bank account endinf on XX35071\"";
             }

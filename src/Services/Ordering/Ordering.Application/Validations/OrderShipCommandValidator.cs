@@ -3,9 +3,9 @@ using Ordering.Domain.Commands;
 
 namespace Ordering.Domain.Validations
 {
-    public class ShipOrderCommandValidator : AbstractValidator<ShipOrderCommand>
+    public class OrderShipCommandValidator : AbstractValidator<OrderShipCommand>
     {
-        public ShipOrderCommandValidator()
+        public OrderShipCommandValidator()
         {
             RuleFor(order => order.OrderNumber).NotEmpty().WithMessage("No orderId found");
         }

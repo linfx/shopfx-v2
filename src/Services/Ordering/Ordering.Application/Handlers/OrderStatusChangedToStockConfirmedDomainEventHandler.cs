@@ -3,7 +3,7 @@ using LinFx.Data.Abstractions;
 using LinFx.Data.Linq;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Ordering.API.Application.IntegrationEvents.Events;
+using Ordering.Application.Events;
 using Ordering.Domain.Events;
 using Ordering.Domain.Models.BuyerAggregate;
 using Ordering.Domain.Models.OrderAggregate;
@@ -38,7 +38,7 @@ namespace Ordering.API.Application.DomainEventHandlers.OrderStockConfirmed
             var order = await _orderRepository.FirstOrDefaultAsync(orderStatusChangedToStockConfirmedDomainEvent.OrderId);
             var buyer = await _buyerRepository.FirstOrDefaultAsync(order.GetBuyerId.Value);
 
-            var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(order.Id, order.OrderStatus.Name, buyer.Name);
+            var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedEvent(order.Id, order.OrderStatus.Name, buyer.Name);
             //await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStatusChangedToStockConfirmedIntegrationEvent);
         }
     }
