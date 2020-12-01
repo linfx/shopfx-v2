@@ -83,6 +83,8 @@ namespace Identity.Api
 
             app.UseHttpsRedirection();
 
+            app.UseIdentityServer();
+
             app.UseRouting();
 
             app.UseAuthorization();
