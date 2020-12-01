@@ -1,11 +1,14 @@
 using Identity.Api.Data;
+using Identity.Api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace Identity.Api
 {
@@ -22,8 +25,43 @@ namespace Identity.Api
         {
             services.AddDbContext<ApplicationDbContext>(option =>
             {
-                option.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name));
+                option.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+                {
+                    sqlOptions.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name);
+                    //sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                });
             });
+
+            services
+                .AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services
+                .AddIdentityServer(x =>
+                {
+                    x.IssuerUri = "null";
+                    x.Authentication.CookieLifetime = TimeSpan.FromHours(2);
+                })
+                //.AddDevspacesIfNeeded(Configuration.GetValue("EnableDevspaces", false))
+                //.AddSigningCredential(Certificate.Get())
+                .AddAspNetIdentity<ApplicationUser>()
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name);
+                        //sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name);
+                        //sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+                });
 
             services.AddControllers();
 
@@ -36,7 +74,6 @@ namespace Identity.Api
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
