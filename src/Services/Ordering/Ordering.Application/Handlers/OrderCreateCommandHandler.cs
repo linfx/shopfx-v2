@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Ordering.Domain.Commands
 {
     /// <summary>
-    /// 创建订单命令处理
+    /// 订单创建命令处理
     /// </summary>
     public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, bool>
     {

@@ -1,5 +1,4 @@
-﻿using LinFx.Data;
-using LinFx.Data.Abstractions;
+﻿using LinFx.Data.Abstractions;
 using LinFx.Data.Linq;
 using MediatR;
 using Microsoft.Extensions.Logging;
