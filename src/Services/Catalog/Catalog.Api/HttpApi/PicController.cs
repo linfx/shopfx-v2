@@ -1,14 +1,16 @@
-﻿using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using Catalog.EntityFrameworkCore;
+﻿using Catalog.EntityFrameworkCore;
+using LinFx.Http;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Catalog.Api.Controllers
 {
+    [ApiController]
+    [Route("api/v1/[controller]")]
     public class PicController : Controller
     {
         private readonly IHostingEnvironment _env;

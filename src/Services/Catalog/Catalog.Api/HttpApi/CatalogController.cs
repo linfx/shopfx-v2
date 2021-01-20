@@ -16,7 +16,7 @@ using Catalog.EntityFrameworkCore;
 namespace Catalog.Api.Controllers
 {
     [ApiController]
-    [Route("api/v1/catalog")]
+    [Route("api/v1/[controller]")]
     public class CatalogController : ControllerBase
     {
         private readonly CatalogContext _catalogContext;

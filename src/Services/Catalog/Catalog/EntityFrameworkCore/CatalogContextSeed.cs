@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Catalog.Domain.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Catalog.Domain.Models;
 
 namespace Catalog.EntityFrameworkCore
 {

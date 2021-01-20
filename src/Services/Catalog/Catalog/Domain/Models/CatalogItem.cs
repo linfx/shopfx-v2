@@ -21,8 +21,14 @@ namespace Catalog.Domain.Models
         /// </summary>
         public decimal Price { get; set; }
 
+        /// <summary>
+        /// 图片
+        /// </summary>
         public string PictureFileName { get; set; }
 
+        /// <summary>
+        /// 图片
+        /// </summary>
         public string PictureUri { get; set; }
 
         /// <summary>
@@ -34,16 +40,6 @@ namespace Catalog.Domain.Models
         /// 品牌ID
         /// </summary>
         public int CatalogBrandId { get; set; }
-
-        /// <summary>
-        /// 类型
-        /// </summary>
-        public CatalogType CatalogType { get; set; }
-
-        /// <summary>
-        /// 品牌
-        /// </summary>
-        public CatalogBrand CatalogBrand { get; set; }
 
         /// <summary>
         /// 库存数量 Quantity in stock
@@ -66,6 +62,16 @@ namespace Catalog.Domain.Models
         public bool OnReorder { get; set; }
 
         /// <summary>
+        /// 类型
+        /// </summary>
+        public virtual CatalogType CatalogType { get; set; }
+
+        /// <summary>
+        /// 品牌
+        /// </summary>
+        public virtual CatalogBrand CatalogBrand { get; set; }
+
+        /// <summary>
         /// Decrements the quantity of a particular item in inventory and ensures the restockThreshold hasn't
         /// been breached. If so, a RestockRequest is generated in CheckThreshold. 
         /// 
@@ -80,14 +86,10 @@ namespace Catalog.Domain.Models
         public int RemoveStock(int quantityDesired)
         {
             if (AvailableStock == 0)
-            {
                 throw new CatalogDomainException($"Empty stock, product item {Name} is sold out");
-            }
 
             if (quantityDesired <= 0)
-            {
                 throw new CatalogDomainException($"Item units desired should be greater than cero");
-            }
 
             int removed = Math.Min(quantityDesired, AvailableStock);
 

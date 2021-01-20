@@ -1,8 +1,8 @@
-﻿using LinFx.Extensions.EventBus;
-using LinFx.Extensions.EventStores;
+﻿using Catalog.Domain.Events;
+using Catalog.EntityFrameworkCore;
+using LinFx.Extensions.EventBus.Abstractions;
 using System;
 using System.Threading.Tasks;
-using Catalog.EntityFrameworkCore;
 
 namespace Catalog.Application.Services
 {
@@ -14,7 +14,7 @@ namespace Catalog.Application.Services
 
         public CatalogIntegrationEventService(
             IEventBus eventBus,
-            IEventStore eventStore, 
+            IEventStore eventStore,
             CatalogContext catalogContext)
         {
             _eventBus = eventBus;
@@ -22,7 +22,7 @@ namespace Catalog.Application.Services
             _catalogContext = catalogContext;
         }
 
-        public async Task PublishThroughEventBusAsync(IntegrationEvent evt)
+        public async Task PublishThroughEventBusAsync(IEvent evt)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Catalog.Application.Services
             }
         }
 
-        public Task SaveEventAndCatalogContextChangesAsync(IntegrationEvent evt)
+        public Task SaveEventAndCatalogContextChangesAsync(IEvent evt)
         {
             //Use of an EF Core resiliency strategy when using multiple DbContexts within an explicit BeginTransaction():
             //See: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency            

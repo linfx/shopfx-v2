@@ -9,7 +9,7 @@ dotnet tool update -g dotnet-ef
 
 # 数据迁移
 dotnet ef migrations add Initial
-dotnet ef database update
+dotnet ef database update -c ApplicationDbContext
 
 dotnet ef migrations add -c ConfigurationDbContext Config
 dotnet ef database update -c ConfigurationDbContext

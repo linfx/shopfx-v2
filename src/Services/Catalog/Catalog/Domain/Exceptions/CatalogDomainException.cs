@@ -1,9 +1,8 @@
-﻿using LinFx.Domain.Exceptions;
-using System;
+﻿using System;
 
 namespace Catalog.Domain.Exceptions
 {
-    public class CatalogDomainException : LinFxDomainException
+    public class CatalogDomainException : Exception
     {
         public CatalogDomainException()
         { }

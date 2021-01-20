@@ -1,11 +1,11 @@
-﻿using LinFx.Extensions.EventBus;
+﻿using LinFx.Extensions.EventBus.Abstractions;
 
 namespace Catalog.Domain.Events
 {
     // Integration Events notes: 
     // An Event is “something that has happened in the past”, therefore its name has to be   
     // An Integration Event is an event that can cause side effects to other microsrvices, Bounded-Contexts or external systems.
-    public class ProductPriceChangedIntegrationEvent : IntegrationEvent
+    public class ProductPriceChangedIntegrationEvent : IEvent
     {
         public int ProductId { get; private set; }
 
