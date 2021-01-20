@@ -1,4 +1,4 @@
-using Identity.Api.Data;
+using Identity.Api.EntityFrameworkCore;
 using Identity.Api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -79,6 +79,11 @@ namespace Identity.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service Api");
+                });
             }
 
             app.UseHttpsRedirection();
@@ -88,12 +93,6 @@ namespace Identity.Api
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service Api");
-            });
 
             app.UseEndpoints(endpoints =>
             {
