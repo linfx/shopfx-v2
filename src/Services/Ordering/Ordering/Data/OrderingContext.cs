@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Ordering.Data
 {
-    public class OrderingContext : LinFx.Data.DbContext
+    public class OrderingContext : DbContext
     {
         public OrderingContext(DbContextOptions<OrderingContext> options) : base(options) { }
 
@@ -19,7 +19,7 @@ namespace Ordering.Data
                 typeToRegisters.AddRange(module.Assembly.DefinedTypes.Select(t => t.AsType()));
             }
 
-            RegisterEntities(modelBuilder, typeToRegisters);
+            //RegisterEntities(modelBuilder, typeToRegisters);
             //base.OnModelCreating(modelBuilder);
             //modelBuilder.ApplyConfiguration(new ClientRequestEntityTypeConfiguration());
             //modelBuilder.ApplyConfiguration(new PaymentMethodEntityTypeConfiguration());

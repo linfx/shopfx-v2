@@ -1,4 +1,4 @@
-﻿using LinFx.Data.Abstractions;
+﻿using LinFx.Data;
 using LinFx.Extensions.Mediator.Idempotency;
 using MediatR;
 using Ordering.Domain.Models.OrderAggregate;

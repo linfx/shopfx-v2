@@ -1,6 +1,5 @@
-﻿using LinFx.Data.Abstractions;
+﻿using LinFx.Data;
 using LinFx.Data.Linq;
-using LinFx.Extensions.EventBus.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Ordering.API.Application.IntegrationEvents.Events;
@@ -10,7 +9,7 @@ using Ordering.Domain.Models.OrderAggregate;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ordering.API.Application.DomainEventHandlers.OrderCancelled
+namespace Ordering.Application.Handlers
 {
     /// <summary>
     /// 订单取消处理

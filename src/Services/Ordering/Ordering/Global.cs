@@ -1,4 +1,4 @@
-﻿using LinFx.Modules;
+﻿using LinFx.Extensions.Modules;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 

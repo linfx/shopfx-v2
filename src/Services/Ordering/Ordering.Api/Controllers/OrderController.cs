@@ -1,5 +1,6 @@
 ﻿using LinFx.Extensions.Mediator.Idempotency;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Services;
 using Ordering.Application.ViewModels;
@@ -13,15 +14,15 @@ namespace Ordering.Api.Controllers
     /// <summary>
     /// 订单Api
     /// </summary>
-    //[Authorize]
+    [Authorize]
     [ApiController]
-    [Route("api/orders")]
-    public class OrdersController : ControllerBase
+    [Route("api/order")]
+    public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IOrderService _orderService;
 
-        public OrdersController(
+        public OrderController(
             IMediator mediator,
             IOrderService orderService)
         {
@@ -33,7 +34,7 @@ namespace Ordering.Api.Controllers
         /// 我的订单
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("/api/orders")]
         [ProducesResponseType(typeof(IEnumerable<OrderSummary>), 200)]
         public async Task<IActionResult> Get()
         {

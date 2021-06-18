@@ -1,5 +1,4 @@
-﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Ordering.Application.ViewModels;
 using Ordering.Data;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using LinFx.Data.Abstractions;
+﻿using LinFx.Data;
 using LinFx.Data.Linq;
 using MediatR;
 using Ordering.Domain.Commands;

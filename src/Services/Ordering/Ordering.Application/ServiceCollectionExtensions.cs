@@ -1,4 +1,4 @@
-﻿using LinFx.Data.Abstractions;
+﻿using LinFx.Data;
 using LinFx.Extensions.Mediator.Idempotency;
 using LinFx.Extensions.MediatR.FluentValidation;
 using MediatR;
@@ -45,7 +45,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContextPool<OrderingContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseMySql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Ordering.Api"));
+                //options.UseMySql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Ordering.Api"));
             });
 
             services
